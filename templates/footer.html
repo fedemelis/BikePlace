@@ -1,27 +1,45 @@
 <style>
-html,
-body {
-    height: 100%;
-}
+    html,
+    body {
+        height: 100%;
+    }
 
-.content {
-    min-height: calc(100% - 70px); /* Altezza della pagina meno l'altezza del footer */
-    padding-bottom: 70px; /* Altezza del footer */
-}
+    .footer .container {
+        width: 100%;
+    }
 
-.footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-}
+    .content {
+        min-height: calc(100% - 60px); /* Altezza della pagina meno l'altezza del footer */
+        padding-bottom: 60px; /* Altezza del footer */
+    }
 
-.footer-text {
-    margin: 0;
-}
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        height: 60px; /* Altezza del footer */
+        display: flex;
+        align-items: center;
+    }
+
+    .footer-text {
+        margin: 0;
+    }
+
+    .footer-icons {
+        flex-grow: 1;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .footer-icons a {
+        margin-left: 10px;
+        color: #fff;
+    }
 </style>
 
 <footer class="footer">
@@ -33,13 +51,14 @@ body {
             <div class="col-lg-4 text-center">
                 <p class="footer-text">Autore: Federico Melis</p>
             </div>
-            <div class="col-lg-4 text-right">
-                <a href="#"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-tiktok"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
+            <div class="col-lg-4">
+                <div class="footer-icons ml-auto"> <!-- Aggiunto ml-auto per spingere gli elementi a destra -->
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
             </div>
         </div>
     </div>
 </footer>
-

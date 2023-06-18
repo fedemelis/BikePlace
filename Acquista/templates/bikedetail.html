@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <img src="{{ bici.image.url }}" class="card-img-top" alt="{{ bici.type_of_bike }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ bici.type_of_bike }}</h5>
+                    <p class="card-text">Brand: {{ bici.brand }}</p>
+                    <p class="card-text">Venditore: {{ bici.vendor }}</p>
+                    <p class="card-text">Prezzo: {{ bici.price }}</p>
+                    <a href="#" class="btn btn-primary">Aggiungi al carrello</a>
+                    <a href="{% url 'Acquista:listabici' %}" class="btn btn-secondary float-right">Torna alla lista</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
