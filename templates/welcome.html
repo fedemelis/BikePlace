@@ -2,10 +2,8 @@
 {% block title %}
     Benvenuto su BikePlace
 {% endblock %}
-<head>
-    {% load static %}
-    <link rel="stylesheet" href="{% static '/css/welcome.css' %}">
-</head>
+{% load static %}
+<link rel="stylesheet" href="{% static '/css/welcome.css' %}">
 
 <body>
 {% block content %}
@@ -16,11 +14,11 @@
                 {{ foo.name }}
             {% endfor %}
             </p>
-            <p>Sei loggato</p>
+            <p>DEBUG: Sei loggato</p>
             <a href="{% url "logout" %}" class="btn btn-primary">Logout</a>
         {% else %}
             <h1>Benvenuto su BikePlace</h1>
-            <p>Non sei loggato</p>
+            <p>DEBUG: Non sei loggato</p>
             <a href="{% url "login" %}" class="btn btn-primary">Login</a>
             <a href="{% url "user_registrazione" %}" class="btn btn-secondary">Non hai un account? Registrati!</a>
             <h3><a href="{% url "user_registrazione" %}">Sei un'azienda? Vuoi espandere il tuo mercato su BikePlace? Registrati qui!</a></h3>

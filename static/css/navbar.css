@@ -1,15 +1,5 @@
+
 .navbar {
-  background-color: #f8f9fa;
-  padding: 10px;
-}
-
-.navbar-brand {
-  font-size: 24px;
-  font-weight: bold;
-  margin-right: auto;
-}
-
-.navbar .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,26 +9,30 @@
   display: flex;
   list-style-type: none;
   margin: 0;
+  padding: 0;
 }
 
 .nav-item {
-  margin-left: 15px;
+  margin-right: 10px;
 }
 
-.nav-link {
-  color: #333;
-  font-size: 18px;
-  text-decoration: none;
+.nav-item:last-child {
+  margin-right: 0;
 }
 
-.nav-link:hover {
-  color: #007bff;
+.btn-primary,
+.btn-secondary {
+  margin-left: 10px;
 }
 
-.navbar .ml-auto {
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 2000px; /* Puoi regolare questa larghezza massima in base alle tue esigenze */
   margin-left: auto;
-}
-
-.navbar .mr-auto {
   margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }
