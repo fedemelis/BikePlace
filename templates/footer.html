@@ -1,0 +1,45 @@
+<style>
+html,
+body {
+    height: 100%;
+}
+
+.content {
+    min-height: calc(100% - 70px); /* Altezza della pagina meno l'altezza del footer */
+    padding-bottom: 70px; /* Altezza del footer */
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+}
+
+.footer-text {
+    margin: 0;
+}
+</style>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <p class="footer-text">&copy; 2023 Nome della Tua Azienda. Tutti i diritti riservati.</p>
+            </div>
+            <div class="col-lg-4 text-center">
+                <p class="footer-text">Autore: Federico Melis</p>
+            </div>
+            <div class="col-lg-4 text-right">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-tiktok"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+

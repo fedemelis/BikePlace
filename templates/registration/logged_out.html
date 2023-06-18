@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% block title %}
+        Logout Effettuato
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+        <h1>Logout Effettuato</h1>
+        <a href="{% url "welcome_page" %}"><button>Torna alla home</button></a>
+    {% endblock %}
+</body>
+</html>

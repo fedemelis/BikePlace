@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Benvenuto su BikePlace
+{% endblock %}
+<body>
+{% block content %}
+    <div class="main-container text-center center-container">
+        {% if user.is_authenticated %}
+            <h1>Benvenuto {{ user.username }}</h1>
+            <p>Sei loggato</p>
+            <a href="{% url "logout" %}" class="btn btn-primary">Logout</a>
+        {% else %}
+            <h1>Benvenuto su BikePlace</h1>
+            <p>Non sei loggato</p>
+            <a href="{% url "login" %}" class="btn btn-primary">Login</a>
+            <a href="{% url "user_registrazione" %}" class="btn btn-secondary">Non hai un account? Registrati!</a>
+            <h3><a href="{% url "vendor_registrazione" %}">Sei un'azienda? Vuoi espandere il tuo mercato su BikePlace? Registrati qui!</a></h3>
+        {% endif %}
+    </div>
+{% endblock %}
+</body>
