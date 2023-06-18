@@ -7,7 +7,7 @@
 {% block content %}
     <div class="main-container text-center center-container">
         {% if user.is_authenticated %}
-            <h1>Benvenuto {{ user.username }}</h1>
+            <h1>Magosa {{ user.username }}</h1>
             <p>Sei loggato</p>
             <a href="{% url "logout" %}" class="btn btn-primary">Logout</a>
         {% else %}
