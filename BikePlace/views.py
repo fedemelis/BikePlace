@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from BikePlace.forms import *
+from BikePlace.models import *
 
 
 def WelcomePageView(request):
@@ -12,12 +13,9 @@ def WelcomePageView(request):
 
 
 class UserCreateView(CreateView):
-    form_class = UsersForm
+    model = GenericUser
+    form_class = UserForm
     template_name = "user_create.html"
     success_url = reverse_lazy("login")
 
 
-class VendorCreateView(CreateView):
-    form_class = VendorsForm
-    template_name = "user_create.html"
-    success_url = reverse_lazy("login")

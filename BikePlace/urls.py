@@ -18,14 +18,16 @@ from django.contrib import admin
 from django.urls import path
 from .views import *
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', WelcomePageView, name='welcome_page'),
+                  path('admin/', admin.site.urls),
+                  path('', WelcomePageView, name='welcome_page'),
 
-    path('registrazione/', UserCreateView.as_view(), name='user_registrazione'),
-    path('registrazione/venditore', VendorCreateView.as_view(), name='vendor_registrazione'),
+                  path('registrazione/', UserCreateView.as_view(), name='user_registrazione'),
+                  # path('registrazione/vendor', VendorCreateView.as_view(), name='vendor_registrazione'),
 
-    path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-]
+                  path('login/', auth_views.LoginView.as_view(), name='login'),
+                  path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

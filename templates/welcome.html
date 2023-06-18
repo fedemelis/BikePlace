@@ -1,13 +1,21 @@
 {% extends 'base.html' %}
-
 {% block title %}
     Benvenuto su BikePlace
 {% endblock %}
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/welcome.css' %}">
+</head>
+
 <body>
 {% block content %}
     <div class="main-container text-center center-container">
         {% if user.is_authenticated %}
-            <h1>Magosa {{ user.username }}</h1>
+            <h1>Ciao {{ user.username }}! Benvenuto su BikePlace </h1>
+            <p>{% for foo in user.groups.all %}
+                {{ foo.name }}
+            {% endfor %}
+            </p>
             <p>Sei loggato</p>
             <a href="{% url "logout" %}" class="btn btn-primary">Logout</a>
         {% else %}
@@ -15,8 +23,21 @@
             <p>Non sei loggato</p>
             <a href="{% url "login" %}" class="btn btn-primary">Login</a>
             <a href="{% url "user_registrazione" %}" class="btn btn-secondary">Non hai un account? Registrati!</a>
-            <h3><a href="{% url "vendor_registrazione" %}">Sei un'azienda? Vuoi espandere il tuo mercato su BikePlace? Registrati qui!</a></h3>
+            <h3><a href="{% url "user_registrazione" %}">Sei un'azienda? Vuoi espandere il tuo mercato su BikePlace? Registrati qui!</a></h3>
         {% endif %}
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="text-center">
+            <h1 class="display-1">
+                <a href="#" class="discover-link">Scopri di più</a>
+            </h1>
+        </div>
     </div>
 {% endblock %}
 </body>
+
