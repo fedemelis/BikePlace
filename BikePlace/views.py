@@ -1,3 +1,4 @@
+from braces.views import *
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group
@@ -7,7 +8,7 @@ from django.views.generic import *
 
 from BikePlace.forms import *
 from BikePlace.models import *
-from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 def WelcomePageView(request):
@@ -20,6 +21,11 @@ class UserCreateView(CreateView):
     template_name = "user_create.html"
     success_url = reverse_lazy("login")
 
+class VendorCreateView(CreateView):
+    model = GenericUser
+    form_class = VendorForm
+    template_name = "user_create.html"
+    success_url = reverse_lazy("login")
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = GenericUser

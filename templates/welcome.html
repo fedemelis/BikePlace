@@ -21,7 +21,7 @@
             <p>DEBUG: Non sei loggato</p>
             <a href="{% url "login" %}" class="btn btn-primary">Login</a>
             <a href="{% url "user_registrazione" %}" class="btn btn-secondary">Non hai un account? Registrati!</a>
-            <h3><a href="{% url "user_registrazione" %}">Sei un'azienda? Vuoi espandere il tuo mercato su BikePlace? Registrati qui!</a></h3>
+            <h3><a href="{% url "vendor_registrazione" %}">Sei un'azienda? Vuoi espandere il tuo mercato su BikePlace? Registrati qui!</a></h3>
         {% endif %}
         <br>
         <br>
@@ -32,12 +32,12 @@
         <br>
         <div class="text-center">
             <h1 class="display-1">
-                <a href="{% url "Acquista:listabici" %}" class="discover-link">Scopri la bici dei tuoi sogni!</a>
+                <a href="{% url "Acquista:home_acquisti" %}" class="discover-link">Scopri la bici dei tuoi sogni!</a>
             </h1>
         </div>
         <div class="text-center">
             <h1 class="display-1">
-                <a href="#" class="discover-link">Valorizza il tuo usato!</a>
+                <a href="{% url "Acquista:home_acquisti" %}" class="discover-link">Valorizza il tuo usato!</a>
             </h1>
         </div>
     </div>

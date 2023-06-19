@@ -10,8 +10,10 @@
                     <div class="card-header">
                         {% if user.groups.first.name == "Users"%}
                             <h4 class="card-title">Dettagli Utente</h4>
-                        {% else %}
+                        {% elif user.groups.first.name == "Vendors"%}
                             <h4 class="card-title">Dettagli Venditore</h4>
+                        {% else %}
+                            <h4 class="card-title">Dettagli Admin</h4>
                         {% endif %}
                     </div>
                     <div class="card-body text-center">
@@ -28,10 +30,16 @@
                         <p class="card-text">Username: {{ user.username }}</p>
                         <p class="card-text">Data di registrazione: {{ user.date_joined }}</p>
                         <a href="{% url 'modifica_profilo' user.pk %}" class="btn btn-primary">Modifica Profilo</a>
+                        <button onclick="goBack()" class="btn btn-secondary">Indietro</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 {% endblock %}

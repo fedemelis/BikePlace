@@ -25,7 +25,8 @@ urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('', WelcomePageView, name='welcome_page'),
 
-                  path('registrazione/', UserCreateView.as_view(), name='user_registrazione'),
+                  path('registrazione/utente/', UserCreateView.as_view(), name='user_registrazione'),
+                  path('registrazione/vendor/', VendorCreateView.as_view(), name='vendor_registrazione'),
 
                   path('login/', auth_views.LoginView.as_view(), name='login'),
                   path('logout/', auth_views.LogoutView.as_view(), name='logout'),
@@ -34,4 +35,4 @@ urlpatterns = [
                   path('profilo/modifica/<pk>/', UserUpdateView.as_view(), name='modifica_profilo'),
 
                   path('acquista/', include('Acquista.urls')),
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

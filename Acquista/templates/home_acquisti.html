@@ -1,0 +1,67 @@
+{% extends 'base_acquisti.html' %}
+{% block title %}
+    Home Page
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2>Sezione 1</h2>
+                <div id="carousel1" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <!-- Schede delle bici -->
+                        <div class="carousel-item active">
+                            <div class="card-deck">
+                                {% for bike in first_three_bike %}
+                                    <div class="card">
+                                        <img src="{{ bike.image.url }}" class="card-img-top bike-image" alt="Bike Image">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ bike.brand }}</h5>
+                                            <p class="card-text">Tipo: {{ bike.type_of_bike }}</p>
+                                            <p class="card-text">Anno di produzione: {{ bike.year_of_production }}</p>
+                                            <p class="card-text">Prezzo: {{ bike.price }}</p>
+                                            <a href="{% url "Acquista:dettagliobici" bike.pk %}" class="btn btn-primary">Dettagli</a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- Altre schede delle bici -->
+                        <div class="carousel-item">
+                            <div class="card-deck">
+                                {% for bike in other_bike %}
+                                    <div class="card">
+                                        <img src="{{ bike.image.url }}" class="card-img-top bike-image" alt="Bike Image">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ bike.brand }}</h5>
+                                            <p class="card-text">Tipo: {{ bike.type_of_bike }}</p>
+                                            <p class="card-text">Anno di produzione: {{ bike.year_of_production }}</p>
+                                            <p class="card-text">Prezzo: {{ bike.price }}</p>
+                                            <a href="{% url "Acquista:dettagliobici" bike.pk %}" class="btn btn-primary">Dettagli</a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Freccia sinistra -->
+                    <a class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <!-- Freccia destra -->
+                    <a class="carousel-control-next" href="#carousel1" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Ripetere la struttura sopra per le altre due macrosezioni (Sezione 2 e Sezione 3) -->
+    </div>
+{% endblock %}
+
+
+
+

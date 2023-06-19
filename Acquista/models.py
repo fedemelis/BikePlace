@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from BikePlace.models import GenericUser
 
@@ -24,9 +26,42 @@ class Bike(models.Model):
     image = models.ImageField(default=None, blank=True ,upload_to='bici_images')
 
     def __str__(self):
-        out = "Tipo di bici:" + self.type_of_bike + " marca:" + self.brand + " anno di produzione:" + str(
-            self.year_of_production) + " prezzo:" + str(self.price) + " venditore:" + self.vendor.username
+        out = "Tipo di bici: {}<br>".format(self.type_of_bike)
+        out += "Marca: {}<br>".format(self.brand)
+        out += "Anno di produzione: {}<br>".format(self.year_of_production)
+        out += "Prezzo: {}<br>".format(self.price)
+        out += "Venditore: {}<br>".format(self.vendor.username)
         return out
 
     class Meta:
         verbose_name_plural = "Bici"
+
+
+class ShoppingCart(models.Model):
+    user = models.OneToOneField(GenericUser, on_delete=models.CASCADE, related_name='shopping_cart')
+
+    def __str__(self):
+        return f"Carrello utente: {self.user.username}"
+
+
+class ShoppingCartItem(models.Model):
+    shopping_cart = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE, related_name='items')
+    bike = models.ForeignKey(Bike, on_delete=models.CASCADE, related_name='cart_items')
+
+    def __str__(self):
+        return f"Bici nel carrello di {self.shopping_cart.user.username}: {self.bike.type_of_bike} {self.bike.brand}"
+
+
+@receiver(post_save, sender=GenericUser)
+def create_shopping_cart(sender, instance, created, **kwargs):
+    if created:
+        ShoppingCart.objects.create(user=instance)
+
+
+class BikeViewed(models.Model):
+    user = models.ForeignKey(GenericUser, on_delete=models.CASCADE)
+    bike = models.ForeignKey(Bike, on_delete=models.CASCADE)
+    viewed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "Bici Viste"
