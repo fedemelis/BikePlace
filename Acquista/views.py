@@ -13,3 +13,5 @@ class BikeDetailView(DetailView):
     model = Bike
     template_name = "bikedetail.html"
     context_object_name = "bici"
+
+

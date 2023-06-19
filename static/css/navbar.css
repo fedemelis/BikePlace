@@ -15,24 +15,3 @@
 .nav-item {
   margin-right: 10px;
 }
-
-.nav-item:last-child {
-  margin-right: 0;
-}
-
-.btn-primary,
-.btn-secondary {
-  margin-left: 10px;
-}
-
-.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 2000px; /* Puoi regolare questa larghezza massima in base alle tue esigenze */
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 15px;
-  padding-right: 15px;
-}

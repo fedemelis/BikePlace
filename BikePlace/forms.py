@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group, User
 from django import forms
 
@@ -40,7 +40,17 @@ class UserForm(UserCreationForm):
 
     def clean_piva(self):
         piva = self.cleaned_data['piva']
-        if (self.verifica_partita_iva(piva) == False) and piva != None:
-            raise forms.ValidationError("Partita IVA non valida")
+        if piva is not None:
+            if not self.verifica_partita_iva(piva):
+                raise forms.ValidationError("Partita IVA non valida")
+            else:
+                return piva
         else:
             return piva
+
+
+class UpdateUserForm(UserChangeForm):
+
+    class Meta:
+        model = GenericUser
+        fields = ('first_name', 'last_name', 'username', 'email', 'address', 'picture', 'piva')
