@@ -1,15 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'base_acquisti.html' %}
 
 {% block title %}
     Lista delle bici
 {% endblock %}
 
 {% block content %}
-    <div class="row justify-content-center">
+    <div class="row custom-row justify-content-center">
         {% for bici in bici_list %}
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="card mb-4">
-                    <img src="{{ bici.image.url }}" class="card-img-top" alt="{{ bici.type_of_bike }}">
+                    <div class="card-img-container">
+                        <img src="{{ bici.image.url }}" class="card-img-top bike-image" alt="{{ bici.type_of_bike }}">
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ bici.type_of_bike }}</h5>
                         <p class="card-text">{{ bici.brand }}</p>
@@ -20,3 +22,4 @@
         {% endfor %}
     </div>
 {% endblock %}
+

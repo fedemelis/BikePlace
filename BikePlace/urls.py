@@ -35,4 +35,5 @@ urlpatterns = [
                   path('profilo/modifica/<pk>/', UserUpdateView.as_view(), name='modifica_profilo'),
 
                   path('acquista/', include('Acquista.urls')),
+                  path('vendi/', include('Vendi.urls')),
               ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

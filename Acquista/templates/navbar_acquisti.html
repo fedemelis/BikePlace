@@ -41,9 +41,9 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url "welcome_page" %}">BikePlace</a>
         <div class="navbar-nav flex-row ms-sauto">
-            <a class="nav-link" href="#">Home</a>
-            <a class="nav-link" href="#">Compra</a>
-            <a class="nav-link" href="#">Vendi</a>
+            <a class="nav-link" href="{% url "welcome_page" %}">Home</a>
+            <a class="nav-link" href="{% url "Acquista:listabici" %}">Compra</a>
+            <a class="nav-link" href="{% url "Vendi:home_vendite" %}">Vendi</a>
             <a class="nav-link" href="#">Crea</a>
             {% if user.is_authenticated %}
                 <a href="{% url "profilo" user.pk%}" class="nav-link"><i class="fas fa-user"></i></a>

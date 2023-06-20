@@ -1,9 +1,12 @@
+from itertools import islice
+
 from braces.views import *
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.views.generic import *
 
 from Acquista.models import *
+
 
 class HomeAcquistiView(LoginRequiredMixin, TemplateView):
     template_name = "home_acquisti.html"
@@ -11,8 +14,13 @@ class HomeAcquistiView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        first_three_bike = Bike.objects.order_by('id')[:3]
-        other_bike = Bike.objects.order_by('id')[3:]
+        bike_views = BikeViewed.objects.filter(user=self.request.user).order_by('-viewed_at')
+
+        first_three_bike_id = list(bike_views.values_list('bike', flat=True)[:3])
+        other_bike_id = list(bike_views.values_list('bike', flat=True)[3:6])
+
+        first_three_bike = [get_object_or_404(Bike, id=bike_id) for bike_id in first_three_bike_id]
+        other_bike = [get_object_or_404(Bike, id=bike_id) for bike_id in other_bike_id]
 
         context['first_three_bike'] = first_three_bike
         context['other_bike'] = other_bike
@@ -42,16 +50,3 @@ class BikeDetailView(LoginRequiredMixin, DetailView):
                 viewed_obj.save()
 
         return self.render_to_response(self.get_context_data())
-
-
-"""TODO: Implementare la vista per la creazione di una bici"""
-# class BikeCreateView(LoginRequiredMixin, CreateView):
-#     model = Bike
-#     # form_class = BikeForm
-#     template_name = "bike_create.html"
-#     # success_url = reverse_lazy("bike_list")
-#
-#     def form_valid(self, form):
-#         form.instance.vendor = self.request.user
-#         return super().form_valid(form)
-

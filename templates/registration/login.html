@@ -2,13 +2,19 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<form method="post"> {% csrf_token %}
+    {% if "not_allowed" in request.GET.status %}
+        <div class="alert alert-danger" role="alert">
+            Si è arrivati qui in quanto non si dispone dei permessi necessari per il servizio scelto!
+        </div>
+    {% endif %}
 
-  {{form | crispy}}
+    <form method="post"> {% csrf_token %}
 
-  <input type="submit" class="btn btn-success" value="Esegui login">
+        {{form | crispy}}
 
-  </form>
+        <input type="submit" class="btn btn-success" value="Esegui login">
+
+    </form>
 
 {% endblock %}
 

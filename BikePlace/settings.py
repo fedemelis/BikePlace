@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
     'BikePlace',
     'Acquista',
+    'Vendi',
 
 
 
@@ -132,6 +133,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "welcome_page"
+LOGIN_URL = "/login/?status=not_allowed"
 LOGOUT_REDIRECT_URL = "welcome_page"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"

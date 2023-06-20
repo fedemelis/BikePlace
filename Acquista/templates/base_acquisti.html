@@ -18,6 +18,60 @@
             height: 200px; /* Imposta l'altezza desiderata */
             object-fit: cover; /* Adatta l'immagine all'area del contenitore mantenendo l'aspect ratio */
         }
+
+        .custom-row {
+            max-width: 1400px; /* Imposta la larghezza massima desiderata */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 30px;
+            height: 30px; /* Imposta l'altezza delle frecce */
+            z-index: 1;
+            background-color: #007bff;
+            opacity: 100;
+            border-color: #007bff;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+        }
+
+
+        .carousel-control-prev {
+            left: -50px; /* Sposta la freccia sinistra verso sinistra */
+
+        }
+
+        .carousel-control-next {
+            right: -50px; /* Sposta la freccia destra verso destra */
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next,
+        .carousel-control-prev:focus,
+        .carousel-control-next:focus {
+            /* ... il resto del tuo stile CSS ... */
+            background-color: #007bff; /* Imposta il colore predefinito delle frecce */
+        }
+
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover,
+        .carousel-control-prev:active,
+        .carousel-control-next:active{
+            background-color: #0062cc; /* Imposta il colore quando le frecce sono attive o in focus */
+            border-color: #0062cc; /* Imposta il colore del bordo quando le frecce sono attive o in focus */
+        }
+
+        .card-img-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px; /* Imposta l'altezza desiderata per l'immagine */
+        }
+
     </style>
 
     <title>{% block title %} Base {% endblock %}</title>
