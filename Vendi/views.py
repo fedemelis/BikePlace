@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
 from braces.views import *
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_POST
 from django.views.generic import *
 
 from Acquista.models import Bike
@@ -22,6 +24,7 @@ class BikeUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'bike_update.html'
     success_url = reverse_lazy('Vendi:home_vendite')
 
+
 class BikeCreateView(LoginRequiredMixin, CreateView):
     model = Bike
     fields = ['type_of_bike', 'brand', 'year_of_production', 'price', 'image']
@@ -31,3 +34,11 @@ class BikeCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.vendor = self.request.user
         return super().form_valid(form)
+
+@require_POST
+def delete_bike(request, pk):
+    bike = get_object_or_404(Bike, pk=pk)
+    if not Bike.objects.contains(bike):
+        return HttpResponse(status=407, content='Errore')
+    bike.delete()
+    return HttpResponse(status=207)

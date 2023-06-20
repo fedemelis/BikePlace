@@ -10,5 +10,6 @@ urlpatterns = [
 
     path('updatebike/<pk>/', views.BikeUpdateView.as_view(), name='bike_update'),
     path('addbike/', views.BikeCreateView.as_view(), name='add_bike'),
+    path('deletebike/<pk>/', delete_bike, name='delete_bike'),
 
 ]

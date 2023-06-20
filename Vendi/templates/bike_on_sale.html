@@ -5,27 +5,38 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row custom-row justify-content-center">
-        {% if bici_in_vendita.count == 0 %}
-            <div class="col-md-12">
-                <h1 class="text-center">Al momento non hai bici in vendita</h1>
-                <a href="{% url 'Vendi:add_bike' %}" class="btn btn-primary">Aggiungi una bici</a>
-            </div>
-        {% else %}
-            {% for bici in bici_in_vendita %}
-                <div class="col-md-3">
-                    <div class="card mb-4">
-                        <div class="card-img-container">
-                            <img src="{{ bici.image.url }}" class="card-img-top bike-image" alt="{{ bici.type_of_bike }}">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ bici.type_of_bike }}</h5>
-                            <p class="card-text">{{ bici.brand }}</p>
-                            <a href="{% url 'Vendi:bike_update' bici.pk %}" class="btn btn-primary">Gestisci</a>
+    <div class="col-md-12">
+        <div class="d-flex justify-content-start">
+            <a href="{% url 'Vendi:add_bike' %}" class="btn btn-primary mt-4">Aggiungi una bici</a>
+        </div>
+    </div>
+    <br>
+    <div class="col-md-12">
+        <div class="row justify-content-center">
+            {% if bici_in_vendita.count == 0 %}
+                <div class="col-md-12">
+                    <h1 class="text-center">Al momento non hai bici in vendita</h1>
+                </div>
+            {% else %}
+                {% for bici in bici_in_vendita %}
+                    <div class="col-md-3">
+                        <div class="card mb-4">
+                            <div class="card-img-container">
+                                <img src="{{ bici.image.url }}" class="card-img-top bike-image" alt="{{ bici.type_of_bike }}">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ bici.type_of_bike }}</h5>
+                                <p class="card-text">{{ bici.brand }}</p>
+                                <a href="{% url 'Vendi:bike_update' bici.pk %}" class="btn btn-primary">Gestisci</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
-        {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
+
+
+
+

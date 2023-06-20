@@ -2,6 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -9,14 +10,21 @@
                     <div class="card-header">
                         Modifica Bici
                     </div>
-                    <div class="card-body" >
+                    <div class="card-body">
                         <div class="mb-4">
                             <form method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {{ form|crispy }}
                                 <input type="submit" class="btn btn-success align-left" value="Salva Modifiche">
-                                <button onclick="goBack()" class="btn btn-secondary lef">Indietro</button>
                             </form>
+                        </div>
+                        <div class="button-container">
+                            <div class="text-left">
+                                <button id="deleteButton" class="btn btn-danger">Elimina Bici</button>
+                            </div>
+                            <div class="text-right">
+                                <button onclick="goBack()" class="btn btn-secondary">Indietro</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -29,5 +37,32 @@
             window.history.back();
         }
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById("deleteButton").addEventListener("click", function () {
+                var response = confirm("Sei sicuro di voler eliminare questa bici?");
+                if (response === true) {
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", "{% url 'Vendi:delete_bike' object.pk %}", true);
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+
+                    xhr.onload = function () {
+                        if (this.status >= 200 && this.status < 300) {
+                            window.location.href = "{% url 'Vendi:home_vendite' %}";
+                        } else {
+                            alert("Errore: " + xhr.responseText);
+                        }
+                    };
+                    xhr.send();
+                }
+            });
+
+        });
+
+    </script>
+
+
 {% endblock %}
+
 

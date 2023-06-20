@@ -15,8 +15,10 @@
                                 {% csrf_token %}
                                 {{ form|crispy }}
                                 <input type="submit" class="btn btn-success align-left" value="Salva Modifiche">
-                                <button onclick="goBack()" class="btn btn-secondary lef">Indietro</button>
                             </form>
+                            <div class="text-right">
+                                <button onclick="goBack()" class="btn btn-secondary lef">Indietro</button>
+                            </div>
                         </div>
                     </div>
                 </div>

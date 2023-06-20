@@ -1,0 +1,20 @@
+<div id="deleteConfirmationPopup" class="delete-confirmation-popup">
+    <div class="delete-confirmation-content">
+        <form id="deleteForm" method="post">{% csrf_token %}
+            <p>Sicuro di voler cancellare "{{ object }}"?</p>
+            <div class="button-container">
+                <input type="submit" value="Conferma" class="btn btn-danger">
+            </div>
+        </form>
+        <button id="cancelDeleteButton" class="btn btn-secondary">Annulla</button>
+    </div>
+</div>
+
+
+
+<script>
+    window.onload = function() {
+        var popup = document.getElementById("deleteConfirmationPopup");
+        popup.style.display = "block";
+    };
+</script>

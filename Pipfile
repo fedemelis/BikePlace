@@ -10,6 +10,7 @@ django-bootstrap4 = "*"
 crispy-bootstrap4 = "*"
 pillow = "*"
 django-extensions = "*"
+piexif = "*"
 
 [dev-packages]
 
