@@ -33,6 +33,7 @@ urlpatterns = [
 
                   path('profilo/<pk>/', UserDetailView.as_view(), name='profilo'),
                   path('profilo/modifica/<pk>/', UserUpdateView.as_view(), name='modifica_profilo'),
+                  path('profilo/elimina/<pk>/', delete_user, name='elimina_profilo'),
 
                   path('acquista/', include('Acquista.urls')),
                   path('vendi/', include('Vendi.urls')),

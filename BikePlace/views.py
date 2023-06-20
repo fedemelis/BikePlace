@@ -2,8 +2,10 @@ from braces.views import *
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_POST
 from django.views.generic import *
 
 from BikePlace.forms import *
@@ -49,6 +51,15 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         response = super().form_valid(form)
         login(self.request, self.object)  # Reimposta la sessione utente
         return response
+
+@require_POST
+def delete_user(request, pk):
+    user = get_object_or_404(GenericUser, pk=pk)
+    print(user)
+    if not GenericUser.objects.contains(user):
+        return HttpResponse(status=407, content='ERRORE')
+    user.delete()
+    return HttpResponse(status=207)
 
 
 
