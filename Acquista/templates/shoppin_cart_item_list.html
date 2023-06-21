@@ -24,7 +24,7 @@
                                     <td>{{ item.bike.type_of_bike }} - {{ item.bike.brand }}</td>
                                     <td>{{ item.bike.price }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-danger btn-sm">
+                                        <a href="{% url 'Acquista:rimuovi-dal-carrello' item.bike.pk %}" class="btn btn-danger btn-sm">
                                             Rimuovi dal carrello
                                         </a>
                                     </td>
@@ -32,6 +32,10 @@
                             {% endfor %}
                         </tbody>
                     </table>
+                    <div class="text-center mt-4">
+                        <a href="#" class="btn btn-primary">Conferma ordine</a>
+                        <a href="#" class="btn btn-danger mr-2">Svuota carrello</a>
+                    </div>
                 {% else %}
                     <p>Il carrello è vuoto.</p>
                 {% endif %}

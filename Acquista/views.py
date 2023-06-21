@@ -2,6 +2,7 @@ from itertools import islice
 
 from braces.views import *
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import *
 from django.db.models import Q
@@ -82,4 +83,21 @@ class AggiungiAlCarrelloView(LoginRequiredMixin, View):
         ShoppingCartItem.objects.create(shopping_cart=carrello, bike=bici)
 
         # Ridirigi l'utente alla pagina del carrello o a un'altra pagina desiderata
-        return redirect('Acquista:dettagliobici', pk=pk)
+        return redirect('Acquista:home_acquisti')
+
+
+class RimuoviDalCarrelloView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        bici = Bike.objects.get(pk=pk)
+
+        # Verifica se l'utente ha già un carrello, altrimenti crea uno nuovo
+        try:
+            carrello = ShoppingCart.objects.get(user=request.user)
+        except ShoppingCart.DoesNotExist:
+            carrello = ShoppingCart.objects.create(user=request.user)
+
+        # Rimuovi la bici dal carrello
+        ShoppingCartItem.objects.filter(shopping_cart=carrello, bike=bici).delete()
+
+        # Ridirigi l'utente alla pagina del carrello
+        return redirect('Acquista:carrello')

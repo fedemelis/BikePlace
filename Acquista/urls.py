@@ -13,6 +13,7 @@ urlpatterns = [
     path('homeacquisti/', views.HomeAcquistiView.as_view(), name='home_acquisti'),
 
     path('carrello/', views.ShoppingCartView.as_view(), name='carrello'),
-    path('aggiungi-al-carrello/<int:pk>/', views.AggiungiAlCarrelloView.as_view(), name='aggiungi-al-carrello'),
+    path('aggiungi-al-carrello/<pk>/', views.AggiungiAlCarrelloView.as_view(), name='aggiungi-al-carrello'),
+    path('rimuovi-dal-carrello/<pk>/', views.RimuoviDalCarrelloView.as_view(), name='rimuovi-dal-carrello'),
 
 ]

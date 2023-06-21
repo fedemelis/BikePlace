@@ -5,9 +5,10 @@
 {% endblock %}
 
 {% block content %}
+    <br>
     <div class="row custom-row justify-content-center">
         {% for bici in bici_list %}
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card mb-4">
                     <div class="card-img-container">
                         <img src="{{ bici.image.url }}" class="card-img-top bike-image" alt="{{ bici.type_of_bike }}">
