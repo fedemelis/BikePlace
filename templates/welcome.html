@@ -31,16 +31,37 @@
         <br>
         <br>
         <br>
-        <div class="text-center">
-            <h1 class="display-1">
-                <a href="{% url "Acquista:home_acquisti" %}" class="discover-link">Scopri la bici dei tuoi sogni!</a>
-            </h1>
-        </div>
-        <div class="text-center">
-            <h1 class="display-1">
-                <a href="{% url "Acquista:home_acquisti" %}" class="discover-link">Valorizza il tuo usato!</a>
-            </h1>
-        </div>
+
+        {% if user.groups.all.0.name == "Users" %}
+            <div class="text-center">
+                <h1 class="display-1">
+                    <a href="{% url "Acquista:home_acquisti" %}" class="discover-link">Scopri la bici dei tuoi sogni!</a>
+                </h1>
+            </div>
+            <div class="text-center">
+                <h1 class="display-1">
+                    <a href="{% url "Vendi:home_vendite" %}" class="discover-link">Valorizza il tuo usato!</a>
+                </h1>
+            </div>
+
+        {% elif user.groups.all.0.name == "Vendors" %}
+            <div class="text-center">
+                <h1 class="display-1">
+
+{#                    TODO: link alla home dei produttori#}
+
+                    <a href="#" class="discover-link">TODO: home produttori!</a>
+                </h1>
+            </div>
+
+        {% else %}
+            <div class="text-center">
+                <h1 class="display-1">
+                    <a href="{% url "Acquista:listabici" %}" class="discover-link">Vedi subito le bici!</a>
+                </h1>
+            </div>
+
+        {% endif  %}
     </div>
 {% endblock %}
 </body>

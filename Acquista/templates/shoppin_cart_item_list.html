@@ -1,0 +1,41 @@
+{% extends 'base_acquisti.html' %}
+
+{% block title %}
+    Carrello degli acquisti
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <h1>Carrello degli acquisti</h1>
+                {% if cart_items %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Bicicletta</th>
+                                <th scope="col">Prezzo</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_items %}
+                                <tr>
+                                    <td>{{ item.bike.type_of_bike }} - {{ item.bike.brand }}</td>
+                                    <td>{{ item.bike.price }}</td>
+                                    <td>
+                                        <a href="#" class="btn btn-danger btn-sm">
+                                            Rimuovi dal carrello
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>Il carrello è vuoto.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

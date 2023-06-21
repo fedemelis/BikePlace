@@ -12,6 +12,7 @@ class BikeOnSale(LoginRequiredMixin, ListView):
     model = Bike
     template_name = 'bike_on_sale.html'
     context_object_name = 'bici_in_vendita'
+    paginate_by = 6
 
     def get_queryset(self):
         user_id = self.request.user.pk

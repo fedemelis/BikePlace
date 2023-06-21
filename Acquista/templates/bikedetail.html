@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_acquisti.html' %}
 
 {% block content %}
 
@@ -11,8 +11,11 @@
                     <p class="card-text">Brand: {{ bici.brand }}</p>
                     <p class="card-text">Venditore: {{ bici.vendor }}</p>
                     <p class="card-text">Prezzo: {{ bici.price }}</p>
-                    <a href="#" class="btn btn-primary">Aggiungi al carrello</a>
-                    <a href="{% url 'Acquista:listabici' %}" class="btn btn-secondary float-right">Torna alla lista</a>
+
+{#                    TODO: aggiungere la logica per aggiungere al carrello#}
+
+                    <a href="{% url 'Acquista:aggiungi-al-carrello' bici.pk %}" class="btn btn-primary">Aggiungi al carrello</a>
+                    <a href="{% url 'Acquista:home_acquisti' %}" class="btn btn-secondary float-right">Indietro</a>
                 </div>
             </div>
         </div>
