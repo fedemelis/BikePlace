@@ -33,8 +33,8 @@
                         </tbody>
                     </table>
                     <div class="text-center mt-4">
-                        <a href="#" class="btn btn-primary">Conferma ordine</a>
-                        <a href="#" class="btn btn-danger mr-2">Svuota carrello</a>
+                        <a href="{% url 'Acquista:ordine_confermato' carrello_utente.pk %}" class="btn btn-primary">Conferma ordine</a>
+                        <button id="deleteButton" class="btn btn-danger">Svuota carrello</button>
                     </div>
                 {% else %}
                     <p>Il carrello è vuoto.</p>
@@ -42,4 +42,29 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById("deleteButton").addEventListener("click", function () {
+                var response = confirm("Sei sicuro di voler svuotare il carrello?");
+                if (response === true) {
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", "{% url 'Acquista:svuota-carrello' carrello_utente.pk %}", true);
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+
+                    xhr.onload = function () {
+                        if (this.status >= 200 && this.status < 300) {
+                            window.location.href = "{% url 'Acquista:carrello' %}";
+                        } else {
+                            alert("Errore: " + xhr.responseText);
+                        }
+                    };
+                    xhr.send();
+                }
+            });
+
+        });
+
+    </script>
+
 {% endblock %}

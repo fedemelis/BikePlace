@@ -23,7 +23,7 @@ class Bike(models.Model):
     year_of_production = models.IntegerField()
     price = models.IntegerField()
     vendor = models.ForeignKey(GenericUser, on_delete=models.CASCADE, related_name='venditore')
-    image = models.ImageField(default=None, blank=True ,upload_to='bici_images')
+    image = models.ImageField(upload_to='bici_images')
 
     def __str__(self):
         out = "Tipo di bici: {}<br>".format(self.type_of_bike)
@@ -65,3 +65,26 @@ class BikeViewed(models.Model):
 
     class Meta:
         verbose_name_plural = "Bici Viste"
+
+
+class SoldBike(Bike):
+    class Meta:
+        verbose_name_plural = "Bici Vendute"
+
+
+class Seller(GenericUser):
+    class Meta:
+        verbose_name_plural = "Venditori"
+
+
+class Order(models.Model):
+    user = models.ForeignKey(GenericUser, on_delete=models.CASCADE, related_name='orders')
+    sold_bikes = models.ManyToManyField(SoldBike, related_name='orders')
+    order_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Ordine di {self.user.username}"
+
+    class Meta:
+        verbose_name_plural = "Ordini"
+
