@@ -81,6 +81,7 @@ class Order(models.Model):
     user = models.ForeignKey(GenericUser, on_delete=models.CASCADE, related_name='orders')
     sold_bikes = models.ManyToManyField(SoldBike, related_name='orders')
     order_date = models.DateTimeField(auto_now_add=True)
+    total_price = models.IntegerField()
 
     def __str__(self):
         return f"Ordine di {self.user.username}"

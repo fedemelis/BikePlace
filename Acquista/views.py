@@ -10,6 +10,8 @@ from django.views.decorators.http import require_POST
 from django.views.generic import *
 from django.db.models import Q, Subquery
 from Acquista.models import *
+from django.db.models import Sum
+
 
 
 class HomeAcquistiView(LoginRequiredMixin, TemplateView):
@@ -144,12 +146,14 @@ class OrderConfirmationView(LoginRequiredMixin, View):
         if not ShoppingCart.objects.filter(user=request.user, pk=pk).exists():
             return HttpResponse(status=407, content='Errore')
 
+        total = 0
+
         # Crea un nuovo ordine
-        order = Order.objects.create(user=request.user)
+        order = Order.objects.create(user=request.user, total_price=total)
 
         # Itera sugli elementi del carrello
         for item in ShoppingCartItem.objects.filter(shopping_cart=shopping_cart):
-
+            print(item)
             seller, created = Seller.objects.get_or_create(username=item.bike.vendor.username + '_seller' + str(item.bike.vendor.id))
 
             # Crea un'istanza di SoldBike per ogni elemento del carrello
@@ -162,11 +166,18 @@ class OrderConfirmationView(LoginRequiredMixin, View):
                 # Altri campi della bici da impostare
             )
 
+            total += item.bike.price
+
             Bike.objects.filter(pk=item.bike.pk).delete()
             # Aggiungi l'istanza di SoldBike all'ordine
             order.sold_bikes.add(sold_bike)
 
+        print(total)
+
+        order.total_price = total
+
         order.save()
+        total = 0
 
         # Rimuovi tutti gli elementi di ShoppingCartItem associati al carrello
         ShoppingCartItem.objects.filter(shopping_cart=shopping_cart).delete()
@@ -182,4 +193,6 @@ class OrderListView(GroupRequiredMixin, ListView):
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user).order_by('-order_date')
+
+
 
