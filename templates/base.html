@@ -17,7 +17,7 @@
         }
 
         /* Stili per il footer quando è visibile */
-        #footer {
+        .footer {
             position: fixed;
             bottom: 0;
             left: 0;
@@ -83,6 +83,7 @@
     window.addEventListener("scroll", function() {
     var footer = document.getElementById("footer");
     var footerHiddenClass = "footer-hidden";
+    var footerClass = "footer"
 
     // Calcola l'altezza della finestra visualizzabile
     var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -104,8 +105,10 @@
     if (windowHeight + scrollTop >= documentHeight) {
         // Rimuovi la classe di nascondere il footer
         footer.classList.remove(footerHiddenClass);
+        footer.classList.add(footerClass);
     } else {
         // Aggiungi la classe per nascondere il footer
+        footer.classList.remove(footerClass);
         footer.classList.add(footerHiddenClass);
     }
 });
