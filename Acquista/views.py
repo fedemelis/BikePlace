@@ -173,3 +173,13 @@ class OrderConfirmationView(LoginRequiredMixin, View):
 
         return redirect('Acquista:carrello')
 
+
+class OrderListView(GroupRequiredMixin, ListView):
+    group_required = 'Users'
+    model = Order
+    template_name = "order_list.html"
+    context_object_name = "order_list"
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user).order_by('-order_date')
+

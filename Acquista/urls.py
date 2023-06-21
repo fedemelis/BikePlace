@@ -18,4 +18,6 @@ urlpatterns = [
     path('svuota-carrello/<pk>/', views.flush_shopping_cart, name='svuota-carrello'),
     path('ordine_confermato/<pk>/', views.OrderConfirmationView.as_view(), name='ordine_confermato'),
 
+    path('ordini/', views.OrderListView.as_view(), name='ordini'),
+
 ]

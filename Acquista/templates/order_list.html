@@ -1,0 +1,28 @@
+{% extends 'base_acquisti.html' %}
+
+{% block title %}Acquisti{% endblock %}
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <div class="row">
+            {% for order in order_list %}
+                <div class="col">
+                    <div class="card mb-4">
+                        <div class="card-header text-center">
+                            <h5 class="card-title">Ordine:</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group">
+                                {% for sold_bike in order.sold_bikes.all %}
+                                    <li class="list-group-item">{{ sold_bike.brand }} - {{ sold_bike.type_of_bike }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+
+
