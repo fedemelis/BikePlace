@@ -12,7 +12,10 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     {% endblock %}
 
+
     <style>
+
+
         .bike-image {
             width: 300px; /* Imposta la larghezza desiderata */
             height: 200px; /* Imposta l'altezza desiderata */
@@ -69,7 +72,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 200px; /* Imposta l'altezza desiderata per l'immagine */
+            height: 200px;
+        }/* Imposta l'altezza desiderata per l'immagine */
 
         .button-container {
             display: flex;
@@ -82,10 +86,96 @@
             margin-right: 10px;
         }
 
+        .footer-hidden {
+            display: none;
+        }
+
+        /* Stili per il footer quando è visibile */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            height: 60px; /* Altezza del footer */
+            display: flex;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+        }
+
+        .row {
+            justify-content: space-between;
+        }
+
+        .col-lg-4 {
+            flex-basis: 33.33%;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .footer-text {
+            margin: 0;
+        }
+
+        .footer-icons {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .footer-icons a {
+            margin-left: 10px;
+            color: #fff;
+        }
     </style>
 
     <title>{% block title %} Base {% endblock %}</title>
 </head>
+
+<script>
+    window.addEventListener("scroll", function() {
+        var footer = document.getElementById("footer");
+        var footerHiddenClass = "footer-hidden";
+        var footerClass = "footer"
+
+        // Calcola l'altezza della finestra visualizzabile
+        var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+        // Calcola l'altezza totale della pagina
+        var documentHeight = Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight,
+            document.body.offsetHeight,
+            document.documentElement.offsetHeight,
+            document.body.clientHeight,
+            document.documentElement.clientHeight
+        );
+
+        // Calcola la posizione verticale corrente dello scroll
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+
+        // Verifica se si è arrivati alla fine della pagina
+        if (windowHeight + scrollTop >= documentHeight) {
+            // Rimuovi la classe di nascondere il footer
+            if (footer.classList.contains(footerHiddenClass)) {
+                footer.classList.remove(footerHiddenClass);
+            }
+            footer.classList.add(footerClass);
+        } else {
+            // Aggiungi la classe per nascondere il footer
+            if (footer.classList.contains(footerClass)) {
+                footer.classList.remove(footerClass);
+            }
+            footer.classList.add(footerHiddenClass);
+        }
+    });
+</script>
 
 <body>
 {% include 'navbar_acquisti.html' %}

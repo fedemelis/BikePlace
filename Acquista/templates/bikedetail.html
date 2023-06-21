@@ -11,9 +11,6 @@
                     <p class="card-text">Brand: {{ bici.brand }}</p>
                     <p class="card-text">Venditore: {{ bici.vendor }}</p>
                     <p class="card-text">Prezzo: {{ bici.price }}</p>
-
-{#                    TODO: aggiungere la logica per aggiungere al carrello#}
-
                     <a href="{% url 'Acquista:aggiungi-al-carrello' bici.pk %}" class="btn btn-primary">Aggiungi al carrello</a>
                     <a href="{% url 'Acquista:home_acquisti' %}" class="btn btn-secondary float-right">Indietro</a>
                 </div>

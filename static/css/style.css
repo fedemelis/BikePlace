@@ -1,0 +1,126 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-right: 10px;
+}
+
+.nav-item:last-child {
+  margin-right: 0;
+}
+
+.btn-primary,
+.btn-secondary {
+  margin-left: 10px;
+}
+
+.container-custom {
+  display: flex;
+  justify-content: center; /* Modificato per centrare il contenuto */
+  align-items: center; /* Modificato per centrare il contenuto */
+  width: 100%;
+  max-width: 2000px; /* Puoi regolare questa larghezza massima in base alle tue esigenze */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.container-fluid {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+
+/* footer ------------------------------------------------------------------ */
+
+.footer-hidden {
+  display: none;
+}
+
+/* Stili per il footer quando è visibile */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  height: 60px; /* Altezza del footer */
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+}
+
+.row {
+  justify-content: space-between;
+}
+
+.col-lg-4 {
+  flex-basis: 33.33%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.footer-text {
+  margin: 0;
+}
+
+.footer-icons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.footer-icons a {
+  margin-left: 10px;
+  color: #fff;
+}
+
+/* navbar ---------------------------------------- */
+
+    .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-right: 10px;
+}
+
+.nav-item:last-child {
+  margin-right: 0;
+}
+
+.btn-primary,
+.btn-secondary {
+  margin-left: 10px;
+}
+
+.container-fluid {
+  padding-left: 15px;
+  padding-right: 15px;
+}

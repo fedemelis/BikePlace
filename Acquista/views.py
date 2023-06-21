@@ -70,7 +70,7 @@ class BikeDetailView(LoginRequiredMixin, DetailView):
 
 class ShoppingCartView(LoginRequiredMixin, ListView):
     model = ShoppingCartItem
-    template_name = "shoppin_cart_item_list.html"
+    template_name = "shopping_cart_item_list.html"
     context_object_name = "cart_items"
 
     def get_queryset(self):
