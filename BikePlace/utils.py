@@ -20,10 +20,11 @@ def build_matrix():
         user_interests = interests.filter(user=user)
         for interest in user_interests:
             for category in interest.categories.all():
-                matrix.loc[user, category] = 1
-
+                category_name = category.name  # Ottenere il nome della categoria
+                matrix.loc[user, category_name] = 1
 
     print(matrix)
 
     return matrix
+
 

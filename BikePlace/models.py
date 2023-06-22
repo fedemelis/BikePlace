@@ -31,7 +31,7 @@ class UserInterest(models.Model):
     categories = models.ManyToManyField(Category)
 
     def __str__(self):
-        return f"{self.user.username} è interessato a {self.category.name}"
+        return f"{self.user.username}"
 
     class Meta:
         verbose_name_plural = "Interessi Utenti"
