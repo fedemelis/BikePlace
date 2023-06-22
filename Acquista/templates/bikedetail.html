@@ -1,12 +1,24 @@
 {% extends 'base_acquisti.html' %}
 
-{% block content %}
+{% block title %}
+    Dettaglio bici
+{% endblock %}
 
-    <div class="row justify-content-center">
+{% block content %}
+    <div class="row custom-row justify-content-center">
         <div class="col-md-6">
             <div class="card mb-4">
-                <img src="{{ bici.image.url }}" class="card-img-top" alt="{{ bici.type_of_bike }}">
+                <img src="{{ bici.image.url }}" class="card-img-top bike-image-detail" alt="{{ bici.type_of_bike }}">
                 <div class="card-body">
+                    {% if bici.pk in preferiti %}
+                        <a href="{% url 'Acquista:rimuovi-preferito' bici.pk %}" class="text-warning float-right">
+                            <i class="fas fa-star fa-2x"></i> <!-- Filled star icon -->
+                        </a>
+                    {% else %}
+                        <a href="{% url 'Acquista:aggiungi-preferito' bici.pk %}" class="text-warning float-right">
+                            <i class="far fa-star fa-2x"></i> <!-- Empty star icon -->
+                        </a>
+                    {% endif %}
                     <h5 class="card-title">{{ bici.type_of_bike }}</h5>
                     <p class="card-text">Brand: {{ bici.brand }}</p>
                     <p class="card-text">Venditore: {{ bici.vendor }}</p>
@@ -17,5 +29,7 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
+
+
+

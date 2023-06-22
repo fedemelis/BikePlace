@@ -12,32 +12,34 @@
                 {% if cart_items %}
                     <table class="table">
                         <thead>
-                            <tr>
-                                <th scope="col">Bicicletta</th>
-                                <th scope="col">Prezzo</th>
-                                <th scope="col"></th>
-                            </tr>
+                        <tr>
+                            <th scope="col">Bicicletta</th>
+                            <th scope="col">Prezzo</th>
+                            <th scope="col"></th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {% for item in cart_items %}
-                                <tr>
-                                    <td>{{ item.bike.type_of_bike }} - {{ item.bike.brand }}</td>
-                                    <td>{{ item.bike.price }}</td>
-                                    <td>
-                                        <a href="{% url 'Acquista:rimuovi-dal-carrello' item.bike.pk %}" class="btn btn-danger btn-sm">
-                                            Rimuovi dal carrello
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
+                        {% for item in cart_items %}
+                            <tr>
+                                <td>{{ item.bike.type_of_bike }} - {{ item.bike.brand }}</td>
+                                <td>{{ item.bike.price }}</td>
+                                <td>
+                                    <a href="{% url 'Acquista:rimuovi-dal-carrello' item.bike.pk %}" class="btn btn-danger btn-sm">
+                                        Rimuovi dal carrello
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                     <div class="text-center mt-4">
                         <a href="{% url 'Acquista:ordine_confermato' carrello_utente.pk %}" class="btn btn-primary">Conferma ordine</a>
                         <button id="deleteButton" class="btn btn-danger">Svuota carrello</button>
+                        <button onclick="goBack()" class="btn btn-secondary">Indietro</button>
                     </div>
                 {% else %}
                     <p>Il carrello è vuoto.</p>
+                    <button onclick="goBack()" class="btn btn-secondary">Indietro</button>
                 {% endif %}
             </div>
         </div>
@@ -65,6 +67,12 @@
 
         });
 
+    </script>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
     </script>
 
 {% endblock %}

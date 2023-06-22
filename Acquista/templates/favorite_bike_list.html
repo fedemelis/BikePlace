@@ -1,0 +1,39 @@
+{% extends 'base_acquisti.html' %}
+
+{% block title %}
+    Preferiti
+{% endblock %}
+
+{% block content %}
+    <div class="row card-container">
+        <div class="container">
+            <h1>Le mie bici preferite</h1>
+
+            <div class="row">
+                {% for bici in favorite_bike_list %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="{{ bici.image.url }}" class="card-img-top" alt="{{ bici.type_of_bike }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ bici.type_of_bike }}</h5>
+                                <p class="card-text">Brand: {{ bici.brand }}</p>
+                                <p class="card-text">Venditore: {{ bici.vendor }}</p>
+                                <p class="card-text">Prezzo: {{ bici.price }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <a href="{% url 'Acquista:aggiungi-al-carrello' bici.pk %}" class="btn btn-primary">Aggiungi al carrello</a>
+                                    <a href="{% url 'Acquista:rimuovi-preferito' bici.pk %}" class="btn btn-danger">Rimuovi dai preferiti</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Non hai ancora aggiunto bici ai preferiti.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

@@ -89,3 +89,16 @@ class Order(models.Model):
     class Meta:
         verbose_name_plural = "Ordini"
 
+
+class FavoriteBike(models.Model):
+    user = models.ForeignKey(GenericUser, on_delete=models.CASCADE, related_name='favorites')
+    bike = models.ForeignKey(Bike, on_delete=models.CASCADE, related_name='favorites')
+    viewed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Bici preferita di {self.user.username}: {self.bike.type_of_bike} {self.bike.brand}"
+
+    class Meta:
+        verbose_name_plural = "Preferiti"
+        unique_together = ['user', 'bike']
+

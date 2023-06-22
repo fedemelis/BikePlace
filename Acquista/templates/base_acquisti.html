@@ -22,6 +22,12 @@
             object-fit: cover; /* Adatta l'immagine all'area del contenitore mantenendo l'aspect ratio */
         }
 
+        .bike-image-detail {
+            width: 600px; /* Imposta la larghezza desiderata */
+            height: 400px; /* Imposta l'altezza desiderata */
+            object-fit: cover; /* Adatta l'immagine all'area del contenitore mantenendo l'aspect ratio */
+        }
+
         .custom-row {
             max-width: 1400px; /* Imposta la larghezza massima desiderata */
             margin-left: auto;
@@ -132,6 +138,17 @@
         .footer-icons a {
             margin-left: 10px;
             color: #fff;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .card-container .card {
+            flex: 0 0 calc(33.33% - 20px); /* Imposta la larghezza delle card al 33.33% meno 20px di margine */
+            margin-bottom: 20px;
         }
     </style>
 

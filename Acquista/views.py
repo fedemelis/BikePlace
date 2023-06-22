@@ -13,8 +13,8 @@ from Acquista.models import *
 from django.db.models import Sum
 
 
-
-class HomeAcquistiView(LoginRequiredMixin, TemplateView):
+class HomeAcquistiView(GroupRequiredMixin, TemplateView):
+    group_required = 'Users'
     template_name = "home_acquisti.html"
 
     def get_context_data(self, **kwargs):
@@ -68,6 +68,14 @@ class BikeDetailView(LoginRequiredMixin, DetailView):
                 viewed_obj.save()
 
         return self.render_to_response(self.get_context_data())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user = self.request.user
+        context['preferiti'] = FavoriteBike.objects.filter(user=user).values_list('bike__pk', flat=True)
+
+        return context
 
 
 class ShoppingCartView(LoginRequiredMixin, ListView):
@@ -154,7 +162,8 @@ class OrderConfirmationView(LoginRequiredMixin, View):
         # Itera sugli elementi del carrello
         for item in ShoppingCartItem.objects.filter(shopping_cart=shopping_cart):
             print(item)
-            seller, created = Seller.objects.get_or_create(username=item.bike.vendor.username + '_seller' + str(item.bike.vendor.id))
+            seller, created = Seller.objects.get_or_create(
+                username=item.bike.vendor.username + '_seller' + str(item.bike.vendor.id))
 
             # Crea un'istanza di SoldBike per ogni elemento del carrello
             sold_bike = SoldBike.objects.create(
@@ -193,6 +202,48 @@ class OrderListView(GroupRequiredMixin, ListView):
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user).order_by('-order_date')
+
+
+class AggiungiPreferitoView(GroupRequiredMixin, View):
+    group_required = 'Users'
+
+    def get(self, request, pk):
+        bici = Bike.objects.get(pk=pk)
+        user = request.user
+
+        favBike = FavoriteBike.objects.create(user=user, bike=bici)
+
+        favBike.save()
+
+        return redirect('Acquista:dettagliobici', pk=pk)
+
+
+class RimuoviPreferitoView(GroupRequiredMixin, View):
+    group_required = 'Users'
+
+    def get(self, request, pk):
+        bici = Bike.objects.get(pk=pk)
+        user = request.user
+
+        FavoriteBike.objects.filter(user=user, bike=bici).delete()
+
+        return redirect('Acquista:dettagliobici', pk=pk)
+
+
+class FavoriteBikeListView(GroupRequiredMixin, ListView):
+    group_required = 'Users'
+    model = FavoriteBike
+    template_name = "favorite_bike_list.html"
+    context_object_name = "favorite_bike_list"
+
+    def get_queryset(self):
+        user = self.request.user
+        favBike = FavoriteBike.objects.filter(user=user).values_list('bike__pk', flat=True)
+        return Bike.objects.filter(pk__in=favBike)
+
+
+
+
 
 
 
