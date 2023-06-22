@@ -21,7 +21,9 @@ urlpatterns = [
     path('ordini/', views.OrderListView.as_view(), name='ordini'),
 
     path('rimuovi-preferito/<pk>/', views.RimuoviPreferitoView.as_view(), name='rimuovi-preferito'),
+    path('rimuovi-da-lista-preferiti/<pk>/', views.RimuoviPreferitoFromList.as_view(), name='rimuovi-da-lista-preferiti'),
     path('aggiungi-preferito/<pk>/', views.AggiungiPreferitoView.as_view(), name='aggiungi-preferito'),
+
 
     path('listapreferiti/<pk>/', views.FavoriteBikeListView.as_view(), name='listapreferiti'),
 

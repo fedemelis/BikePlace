@@ -17,6 +17,7 @@ class HomeAcquistiView(GroupRequiredMixin, TemplateView):
     group_required = 'Users'
     template_name = "home_acquisti.html"
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -49,7 +50,43 @@ class BikeListView(ListView):
         # Filtra le biciclette escludendo quelle che hanno l'id presente nella subquery
         queryset = Bike.objects.exclude(id__in=Subquery(sold_bike_ids))
 
+        # Ottieni il parametro di ricerca dalla query string
+        search_query = self.request.GET.get('q')
+
+        if search_query:
+            # Filtra le bici in base al parametro di ricerca
+            queryset = queryset.filter(
+                Q(type_of_bike__icontains=search_query) |
+                Q(brand__icontains=search_query)
+            )
+
+        # Ottieni il parametro di ordinamento dalla query string
+        sort_by = self.request.GET.get('sort')
+
+        if sort_by == 'price_c':
+            # Ordina le bici per prezzo in ordine crescente
+            queryset = queryset.order_by('price')
+        elif sort_by == 'price_d':
+            # Ordina le bici per prezzo in ordine decrescente
+            queryset = queryset.order_by('-price')
+        elif sort_by == 'year_c':
+            # Ordina le bici per anno di produzione in ordine crescente
+            queryset = queryset.order_by('year_of_production')
+        elif sort_by == 'year_d':
+            # Ordina le bici per anno di produzione in ordine decrescente
+            queryset = queryset.order_by('-year_of_production')
+
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Ottieni il valore del parametro 'q' dalla query string dell'URL
+        search_query = self.request.GET.get('q')
+
+        context['keyword_query'] = search_query
+
+        return context
 
 
 class BikeDetailView(LoginRequiredMixin, DetailView):
@@ -109,7 +146,7 @@ class AggiungiAlCarrelloView(LoginRequiredMixin, View):
             carrello = ShoppingCart.objects.create(user=request.user)
 
         # Aggiungi la bici al carrello
-        ShoppingCartItem.objects.create(shopping_cart=carrello, bike=bici)
+        ShoppingCartItem.objects.get_or_create(shopping_cart=carrello, bike=bici)
 
         # Ridirigi l'utente alla pagina del carrello o a un'altra pagina desiderata
         return redirect('Acquista:home_acquisti')
@@ -228,6 +265,19 @@ class RimuoviPreferitoView(GroupRequiredMixin, View):
         FavoriteBike.objects.filter(user=user, bike=bici).delete()
 
         return redirect('Acquista:dettagliobici', pk=pk)
+
+
+
+class RimuoviPreferitoFromList(GroupRequiredMixin, View):
+    group_required = 'Users'
+
+    def get(self, request, pk):
+        bici = Bike.objects.get(pk=pk)
+        user = request.user
+
+        FavoriteBike.objects.filter(user=user, bike=bici).delete()
+
+        return redirect('Acquista:listapreferiti', pk=pk)
 
 
 class FavoriteBikeListView(GroupRequiredMixin, ListView):
