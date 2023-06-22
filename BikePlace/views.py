@@ -1,4 +1,6 @@
 from braces.views import *
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group
@@ -60,6 +62,18 @@ def delete_user(request, pk):
         return HttpResponse(status=407, content='ERRORE')
     user.delete()
     return HttpResponse(status=207)
+
+
+class CreateUserInterestView(GroupRequiredMixin, CreateView):
+    group_required = "Users"
+    model = UserInterest
+    form_class = UserInterestForm
+    template_name = "user_interest_create.html"
+    success_url = reverse_lazy("welcome_page")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 

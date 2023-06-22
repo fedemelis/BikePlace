@@ -2,9 +2,9 @@ from itertools import islice
 
 from braces.views import *
 from django.contrib.auth import get_user_model
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from django.views.generic import *
@@ -12,10 +12,21 @@ from django.db.models import Q, Subquery
 from Acquista.models import *
 from django.db.models import Sum
 
+from BikePlace.models import UserInterest
+
 
 class HomeAcquistiView(GroupRequiredMixin, TemplateView):
     group_required = 'Users'
     template_name = "home_acquisti.html"
+
+    def get(self, request, *args, **kwargs):
+        # Controlla se esiste un oggetto UserInterest per l'utente corrente
+        user_interest = UserInterest.objects.filter(user=self.request.user).first()
+
+        if not user_interest:
+            # Reindirizza l'utente a un'altra pagina con la pk come parametro
+            return redirect('interessi', pk=self.request.user.pk)
+        return super().get(request, *args, **kwargs)
 
 
     def get_context_data(self, **kwargs):
@@ -111,6 +122,15 @@ class BikeDetailView(LoginRequiredMixin, DetailView):
 
         user = self.request.user
         context['preferiti'] = FavoriteBike.objects.filter(user=user).values_list('bike__pk', flat=True)
+
+        context['prev_page'] = self.request.META.get('HTTP_REFERER')
+
+        if self.request.META.get('HTTP_REFERER') == "http://127.0.0.1:8000/acquista/homeacquisti/":
+            context['prev_page'] = "http://127.0.0.1:8000/acquista/homeacquisti/"
+        elif self.request.META.get('HTTP_REFERER') == "http://127.0.0.1:8000/acquista/listabici/":
+            context['prev_page'] = "http://127.0.0.1:8000/acquista/listabici/"
+        else:
+            context['prev_page'] = ""
 
         return context
 

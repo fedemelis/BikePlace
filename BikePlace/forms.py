@@ -144,3 +144,15 @@ class UpdateUserForm(UserChangeForm):
     class Meta:
         model = GenericUser
         fields = ('first_name', 'last_name', 'username', 'email', 'address', 'picture', 'piva')
+
+
+class UserInterestForm(forms.ModelForm):
+    class Meta:
+        model = UserInterest
+        fields = ['categories']
+
+    categories = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.all(),
+        widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'})
+    )
+

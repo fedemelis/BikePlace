@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
+from .utils import *
 from .views import *
 from django.contrib.auth import views as auth_views
 from django.conf import settings
@@ -35,6 +37,11 @@ urlpatterns = [
                   path('profilo/modifica/<pk>/', UserUpdateView.as_view(), name='modifica_profilo'),
                   path('profilo/elimina/<pk>/', delete_user, name='elimina_profilo'),
 
+                  path('interessi/<pk>/', CreateUserInterestView.as_view(), name='interessi'),
+
                   path('acquista/', include('Acquista.urls')),
                   path('vendi/', include('Vendi.urls')),
+
               ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+build_matrix()
