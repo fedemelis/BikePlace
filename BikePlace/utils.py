@@ -1,5 +1,7 @@
 import pandas as pd
 from django.contrib.auth.models import User
+
+from Acquista.models import CompositeBike, BikeComponent
 from .models import UserInterest, GenericUser, Category
 
 
@@ -27,4 +29,25 @@ def build_matrix():
 
     return matrix
 
+
+def test():
+    telaio = BikeComponent.objects.get_or_create(name='Telaio', category='Telaio', price=200)
+    manubrio = BikeComponent.objects.get_or_create(name='Manubrio', category='Manubrio', price=50)
+    freno = BikeComponent.objects.get_or_create(name='Freno', category='Freno', price=100)
+    sellino = BikeComponent.objects.get_or_create(name='Sellino', category='Sellino', price=80)
+    copertoni = BikeComponent.objects.get_or_create(name='Copertoni', category='Copertoni', price=120)
+
+    vendor = GenericUser.objects.get(username='admin')
+
+    # Creazione di una CompositeBike
+    composite_bike = CompositeBike(
+        telaio=telaio,
+        manubrio=manubrio,
+        freno=freno,
+        sellino=sellino,
+        copertoni=copertoni,
+        vendor=vendor,
+        image='bici_composta.jpg'
+    )
+    composite_bike.save()
 

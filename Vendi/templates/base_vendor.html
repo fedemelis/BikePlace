@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block header %}
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    {% endblock %}
+
+
+    <style>
+
+
+        .bike-image {
+            width: 300px; /* Imposta la larghezza desiderata */
+            height: 200px; /* Imposta l'altezza desiderata */
+            object-fit: cover; /* Adatta l'immagine all'area del contenitore mantenendo l'aspect ratio */
+        }
+
+        .bike-image-detail {
+            width: 600px; /* Imposta la larghezza desiderata */
+            height: 400px; /* Imposta l'altezza desiderata */
+            object-fit: cover; /* Adatta l'immagine all'area del contenitore mantenendo l'aspect ratio */
+        }
+
+        .custom-row {
+            max-width: 1400px; /* Imposta la larghezza massima desiderata */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 30px;
+            height: 30px; /* Imposta l'altezza delle frecce */
+            z-index: 1;
+            background-color: #007bff;
+            opacity: 100;
+            border-color: #007bff;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+        }
+
+
+        .carousel-control-prev {
+            left: -50px; /* Sposta la freccia sinistra verso sinistra */
+
+        }
+
+        .carousel-control-next {
+            right: -50px; /* Sposta la freccia destra verso destra */
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next,
+        .carousel-control-prev:focus,
+        .carousel-control-next:focus {
+            /* ... il resto del tuo stile CSS ... */
+            background-color: #007bff; /* Imposta il colore predefinito delle frecce */
+        }
+
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover,
+        .carousel-control-prev:active,
+        .carousel-control-next:active{
+            background-color: #0062cc; /* Imposta il colore quando le frecce sono attive o in focus */
+            border-color: #0062cc; /* Imposta il colore del bordo quando le frecce sono attive o in focus */
+        }
+
+        .card-img-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }/* Imposta l'altezza desiderata per l'immagine */
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .button-container button {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .footer-hidden {
+            display: none;
+        }
+
+        /* Stili per il footer quando è visibile */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            height: 60px; /* Altezza del footer */
+            display: flex;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+        }
+
+        .row {
+            justify-content: space-between;
+        }
+
+        .col-lg-4 {
+            flex-basis: 33.33%;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .footer-text {
+            margin: 0;
+        }
+
+        .footer-icons {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .footer-icons a {
+            margin-left: 10px;
+            color: #fff;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .card-container .card {
+            flex: 0 0 calc(33.33% - 20px); /* Imposta la larghezza delle card al 33.33% meno 20px di margine */
+            margin-bottom: 20px;
+        }
+    </style>
+
+    <title>{% block title %} Base {% endblock %}</title>
+</head>
+
+<script>
+    window.addEventListener("scroll", function() {
+        var footer = document.getElementById("footer");
+        var footerHiddenClass = "footer-hidden";
+        var footerClass = "footer"
+
+        // Calcola l'altezza della finestra visualizzabile
+        var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+        // Calcola l'altezza totale della pagina
+        var documentHeight = Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight,
+            document.body.offsetHeight,
+            document.documentElement.offsetHeight,
+            document.body.clientHeight,
+            document.documentElement.clientHeight
+        );
+
+        // Calcola la posizione verticale corrente dello scroll
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+
+        // Verifica se si è arrivati alla fine della pagina
+        if (windowHeight + scrollTop >= documentHeight) {
+            // Rimuovi la classe di nascondere il footer
+            if (footer.classList.contains(footerHiddenClass)) {
+                footer.classList.remove(footerHiddenClass);
+            }
+            footer.classList.add(footerClass);
+        } else {
+            // Aggiungi la classe per nascondere il footer
+            if (footer.classList.contains(footerClass)) {
+                footer.classList.remove(footerClass);
+            }
+            footer.classList.add(footerHiddenClass);
+        }
+    });
+</script>
+
+<body>
+{% include 'navbar_vendor.html' %}
+
+{% block content %}
+
+{% endblock %}
+<br>
+<br>
+{% include 'footer.html' %}
+
+</body>
+</html>

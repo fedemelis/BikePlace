@@ -1,4 +1,4 @@
-{% extends 'base_acquisti.html' %}
+{% extends 'base_vendor.html' %}
 
 {% block title %}
     Home Venditori
@@ -36,6 +36,15 @@
                 </div>
             {% endfor %}
         </div>
+        <div class="col-md-12">
+            <div class="d-flex justify-content-start">
+                <a href="{% url 'Vendi:add_bike' %}" class="btn btn-primary mt-4">Aggiungi una bici</a>
+                <a href="{% url 'Vendi:add_component' %}" class="btn btn-primary mt-4">Aggiungi un componente</a>
+            </div>
+        </div>
+        <br>
+        <h2><a href= {% url 'Vendi:home_vendite' %}>Vedi tutte le bici in vendita</a></h2>
+        <h2><a href= {% url 'Vendi:list_components' %}>Vedi tutti i componenti in vendita</a></h2>
     </div>
 {% endblock %}
 

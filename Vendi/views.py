@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import *
 from PIL import Image
 
-from Acquista.models import Bike
+from Acquista.models import Bike, BikeComponent
 
 
 class BikeOnSale(LoginRequiredMixin, ListView):
@@ -118,3 +118,39 @@ class UsersFavoriteView(GroupRequiredMixin, ListView):
         popular_bikes = bikes_for_sale.annotate(num_favorites=Count('favorites')).order_by('-num_favorites')
 
         return popular_bikes
+
+
+class AddComponentView(GroupRequiredMixin, CreateView):
+    group_required = "Vendors"
+    model = BikeComponent
+    fields = ['category', 'name', 'price']
+    template_name = 'add_component.html'
+    success_url = reverse_lazy('Vendi:home_vendor')
+
+    def form_valid(self, form):
+        form.instance.vendor = self.request.user
+        return super().form_valid(form)
+
+
+class ComponentListView(GroupRequiredMixin, ListView):
+    group_required = "Vendors"
+    model = BikeComponent
+    template_name = 'component_list.html'
+    context_object_name = 'componenti'
+    paginate_by = 6
+
+    def get_queryset(self):
+        user_id = self.request.user.pk
+        return BikeComponent.objects.filter(vendor=user_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Filtrare i componenti per ogni categoria e aggiungerli come variabili di contesto
+        context['telaio'] = BikeComponent.objects.filter(category='Telaio', vendor=self.request.user.pk)
+        context['manubrio'] = BikeComponent.objects.filter(category='Manubrio', vendor=self.request.user.pk)
+        context['freno'] = BikeComponent.objects.filter(category='Freno', vendor=self.request.user.pk)
+        context['sellino'] = BikeComponent.objects.filter(category='Sellino', vendor=self.request.user.pk)
+        context['copertoni'] = BikeComponent.objects.filter(category='Copertoni', vendor=self.request.user.pk)
+
+        return context

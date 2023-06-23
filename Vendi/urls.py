@@ -15,4 +15,7 @@ urlpatterns = [
     path('homevendor/', views.HomeVendorView.as_view(), name='home_vendor'),
     path('usersfavorite/', views.UsersFavoriteView.as_view(), name='users_favorite'),
 
+    path('addcomponent', views.AddComponentView.as_view(), name='add_component'),
+    path('listcomponents/', views.ComponentListView.as_view(), name='list_components'),
+
 ]

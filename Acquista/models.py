@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
 
 from BikePlace.models import GenericUser
 
@@ -101,4 +102,49 @@ class FavoriteBike(models.Model):
     class Meta:
         verbose_name_plural = "Preferiti"
         unique_together = ['user', 'bike']
+
+
+class BikeComponent(models.Model):
+    TYPE_OF_COMPONENT = [
+        ('Telaio', 'Telaio'),
+        ('Manubrio', 'Manubrio'),
+        ('Freno', 'Freno'),
+        ('Sellino', 'Sellino'),
+        ('Copertoni', 'Copertoni')
+    ]
+    name = models.CharField(max_length=50)
+    category = models.CharField(max_length=50, choices=TYPE_OF_COMPONENT)
+    price = models.IntegerField()
+    vendor = models.ForeignKey(GenericUser, on_delete=models.CASCADE, related_name='component_vendor')
+
+    class Meta:
+        verbose_name_plural = "Componenti Bici"
+
+    def __str__(self):
+        return self.name
+
+
+class CompositeBike(Bike):
+    telaio = models.ForeignKey(BikeComponent, on_delete=models.CASCADE, related_name='composite_telaio')
+    manubrio = models.ForeignKey(BikeComponent, on_delete=models.CASCADE, related_name='composite_manubrio')
+    freno = models.ForeignKey(BikeComponent, on_delete=models.CASCADE, related_name='composite_freno')
+    sellino = models.ForeignKey(BikeComponent, on_delete=models.CASCADE, related_name='composite_sellino')
+    copertoni = models.ForeignKey(BikeComponent, on_delete=models.CASCADE, related_name='composite_copertoni')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.type_of_bike = 'Bici Composte'
+        self.brand = 'Creata da me'
+        self.year_of_production = timezone.now().year
+        # self.vendor = None
+        # self.image = None
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        self.price = self.telaio.price + self.manubrio.price + self.freno.price + self.sellino.price + self.copertoni.price
+        super().save(force_insert, force_update, using, update_fields)
+
+    class Meta:
+        verbose_name_plural = "Bici Composte"
 

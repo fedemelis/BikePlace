@@ -1,0 +1,119 @@
+{% extends 'base_vendor.html' %}
+
+{% block title %}
+    Lista dei componenti
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        <div class="d-flex justify-content-end">
+            <button onclick="goBack()" class="btn btn-secondary">Indietro</button>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Telaio</h2>
+                <ul class="list-group">
+                    {% for componente in telaio %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ componente.name }} - {{ componente.price }} €
+                            <div>
+                                <a href="#" class="btn btn-primary btn-sm mr-2"><i class="fas fa-pencil-alt"></i></a>
+                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Nessun pezzo disponibile</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Manubrio</h2>
+                <ul class="list-group">
+                    {% for componente in manubrio %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ componente.name }} - {{ componente.price }} €
+                            <div>
+                                <a href="#" class="btn btn-primary btn-sm mr-2"><i class="fas fa-pencil-alt"></i></a>
+                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Nessun pezzo disponibile</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Freno</h2>
+                <ul class="list-group">
+                    {% for componente in freno %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ componente.name }} - {{ componente.price }} €
+                            <div>
+                                <a href="#" class="btn btn-primary btn-sm mr-2"><i class="fas fa-pencil-alt"></i></a>
+                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Nessun pezzo disponibile</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Sellino</h2>
+                <ul class="list-group">
+                    {% for componente in sellino %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ componente.name }} - {{ componente.price }} €
+                            <div>
+                                <a href="#" class="btn btn-primary btn-sm mr-2"><i class="fas fa-pencil-alt"></i></a>
+                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Nessun pezzo disponibile</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Copertoni</h2>
+                <ul class="list-group">
+                    {% for componente in copertoni %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ componente.name }} - {{ componente.price }} €
+                            <div>
+                                <a href="#" class="btn btn-primary btn-sm mr-2"><i class="fas fa-pencil-alt"></i></a>
+                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Nessun pezzo disponibile</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+{% endblock %}
