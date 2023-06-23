@@ -1,0 +1,42 @@
+{% extends 'base_acquisti.html' %}
+
+{% block title %}
+    Home Venditori
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h2>Le bici che fanno più colpo! <a href= {% url 'Vendi:users_favorite' %}>Lista completa!</a></h2>
+            </div>
+        </div>
+        <div class="row">
+            {% for bike in popular_bikes %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ bike.image.url }}" class="card-img-top bike-image" alt="{{ bike.brand }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ bike.brand }}</h5>
+                            <p class="card-text">{{ bike.type_of_bike }}</p>
+                            <p class="card-text">Year of Production: {{ bike.year_of_production }}</p>
+                            <p class="card-text">Price: €{{ bike.price }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <span class="float-right">
+                                {% if bike.num_favorites > 0 %}
+                                    <i class="fas fa-star text-warning"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                                {{ bike.num_favorites }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+

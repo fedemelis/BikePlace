@@ -1,5 +1,7 @@
 {% extends 'base_acquisti.html' %}
 
+{% load custom_tag %}
+
 {% block title %}
     Carrello degli acquisti
 {% endblock %}
@@ -38,8 +40,20 @@
                         <button onclick="goBack()" class="btn btn-secondary">Indietro</button>
                     </div>
                 {% else %}
-                    <p>Il carrello è vuoto.</p>
-                    <button onclick="goBack()" class="btn btn-secondary">Indietro</button>
+                    {% with status=request.path|get_last_element:"/" %}
+                        {% if status == "confirmed" %}
+                            <p>Ordine completato con successo!</p>
+                            <a href="{% url 'Acquista:ordini' %}" class="btn btn-primary">Vedi tutti gli ordini</a>
+                        {% elif status == "flushed" %}
+                            <p>Carrello svuotato correttamente!</p>
+                        {% else %}
+                            <p>Il carrello è vuoto!</p>
+                            <a href="{% url 'Acquista:listabici' %}" class="btn btn-primary">Vai al catalogo</a>
+                        {% endif %}
+
+                    {% endwith %}
+                    <a href="{% url 'Acquista:listabici' %}" class="btn btn-primary">Vai al catalogo</a>
+
                 {% endif %}
             </div>
         </div>
@@ -56,7 +70,7 @@
 
                     xhr.onload = function () {
                         if (this.status >= 200 && this.status < 300) {
-                            window.location.href = "{% url 'Acquista:carrello' %}";
+                            window.location.href = "{% url 'Acquista:carrello' status="flushed" %}";
                         } else {
                             alert("Errore: " + xhr.responseText);
                         }
@@ -67,12 +81,6 @@
 
         });
 
-    </script>
-
-    <script>
-        function goBack() {
-            window.history.back();
-        }
     </script>
 
 {% endblock %}

@@ -172,7 +172,8 @@ class AggiungiAlCarrelloView(LoginRequiredMixin, View):
         return redirect('Acquista:home_acquisti')
 
 
-class RimuoviDalCarrelloView(LoginRequiredMixin, View):
+class RimuoviDalCarrelloView(GroupRequiredMixin, View):
+    group_required = "Users"
     def get(self, request, pk):
         bici = Bike.objects.get(pk=pk)
 
@@ -186,7 +187,7 @@ class RimuoviDalCarrelloView(LoginRequiredMixin, View):
         ShoppingCartItem.objects.filter(shopping_cart=carrello, bike=bici).delete()
 
         # Ridirigi l'utente alla pagina del carrello
-        return redirect('Acquista:carrello')
+        return redirect('Acquista:carrello', status="removed")
 
 
 @require_POST
@@ -203,7 +204,8 @@ def flush_shopping_cart(request, pk):
     return HttpResponse(status=207)
 
 
-class OrderConfirmationView(LoginRequiredMixin, View):
+class OrderConfirmationView(GroupRequiredMixin, View):
+    group_required = 'Users'
     def get(self, request, pk):
         shopping_cart = get_object_or_404(ShoppingCart, pk=pk)
 
@@ -248,7 +250,7 @@ class OrderConfirmationView(LoginRequiredMixin, View):
         # Rimuovi tutti gli elementi di ShoppingCartItem associati al carrello
         ShoppingCartItem.objects.filter(shopping_cart=shopping_cart).delete()
 
-        return redirect('Acquista:carrello')
+        return redirect('Acquista:carrello', status="confirmed")
 
 
 class OrderListView(GroupRequiredMixin, ListView):

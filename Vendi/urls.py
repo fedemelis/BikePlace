@@ -12,4 +12,7 @@ urlpatterns = [
     path('addbike/', views.BikeCreateView.as_view(), name='add_bike'),
     path('deletebike/<pk>/', delete_bike, name='delete_bike'),
 
+    path('homevendor/', views.HomeVendorView.as_view(), name='home_vendor'),
+    path('usersfavorite/', views.UsersFavoriteView.as_view(), name='users_favorite'),
+
 ]
