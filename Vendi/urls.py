@@ -20,4 +20,6 @@ urlpatterns = [
     path('deletecomponent/<pk>/', views.delete_component, name='delete_component'),
     path('updatecomponent/<pk>/', views.ComponentUpdateView.as_view(), name='update_component'),
 
+    path('statistics', views.StatisticsView.as_view(), name='statistics'),
+
 ]

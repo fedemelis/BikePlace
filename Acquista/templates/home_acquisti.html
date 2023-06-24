@@ -25,7 +25,7 @@
                                             <p class="card-text">Tipo: {{ bike.type_of_bike }}</p>
                                             <p class="card-text">Anno di produzione: {{ bike.year_of_production }}</p>
                                             <p class="card-text">Prezzo: {{ bike.price }}</p>
-                                            <a href="{% url "Acquista:dettagliobici" bike.pk %}" class="btn btn-primary">Dettagli</a>
+                                            <a href="{% url "Acquista:dettagliobici" bike.pk %}?next={{ request.path }}" class="btn btn-primary">Dettagli</a>
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -44,7 +44,7 @@
                                             <p class="card-text">Tipo: {{ bike.type_of_bike }}</p>
                                             <p class="card-text">Anno di produzione: {{ bike.year_of_production }}</p>
                                             <p class="card-text">Prezzo: {{ bike.price }}</p>
-                                            <a href="{% url "Acquista:dettagliobici" bike.pk %}" class="btn btn-primary">Dettagli</a>
+                                            <a href="{% url "Acquista:dettagliobici" bike.pk %}?next={{ request.path }}" class="btn btn-primary">Dettagli</a>
                                         </div>
                                     </div>
                                 {% endfor %}

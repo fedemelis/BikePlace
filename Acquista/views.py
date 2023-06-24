@@ -139,7 +139,8 @@ class BikeDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class ShoppingCartView(LoginRequiredMixin, ListView):
+class ShoppingCartView(GroupRequiredMixin, ListView):
+    group_required = "Users"
     model = ShoppingCartItem
     template_name = "shopping_cart_item_list.html"
     context_object_name = "cart_items"
@@ -159,7 +160,8 @@ class ShoppingCartView(LoginRequiredMixin, ListView):
         return context
 
 
-class AggiungiAlCarrelloView(LoginRequiredMixin, View):
+class AggiungiAlCarrelloView(GroupRequiredMixin, View):
+    group_required = "Users"
     def get(self, request, pk):
         bici = Bike.objects.get(pk=pk)
 

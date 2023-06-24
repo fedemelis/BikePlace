@@ -1,14 +1,18 @@
+from datetime import timedelta
+
 from django.core.exceptions import ValidationError
-from django.db.models import Count
-from django.http import HttpResponse
+from django.db.models import Count, Avg
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from braces.views import *
 from django.urls import reverse_lazy
+from django.utils.datetime_safe import date
 from django.views.decorators.http import require_POST
 from django.views.generic import *
 from PIL import Image
 
-from Acquista.models import Bike, BikeComponent
+from Acquista.models import Bike, BikeComponent, SoldBike, Order
+from BikePlace.models import GenericUser
 
 
 class BikeOnSale(LoginRequiredMixin, ListView):
@@ -184,3 +188,38 @@ def delete_component(request, pk):
         return HttpResponse(status=407, content='Errore')
     component.delete()
     return HttpResponse(status=207)
+
+
+class StatisticsView(GroupRequiredMixin, TemplateView):
+    group_required = "Vendors"
+    template_name = 'statistics.html'
+
+
+
+    def get_sales_by_bike_type(self):
+        user = self.request.user
+        vendor_name = user.username + "_seller" + str(user.id)
+        user = GenericUser.objects.get(username=vendor_name)
+        sales_data = SoldBike.objects.filter(vendor=user).values('type_of_bike').annotate(num_sales=Count('id'), avg_price=Avg('price')).order_by('type_of_bike')
+        return list(sales_data)
+
+    def get_sales_by_date(self):
+        # Calcola la data di inizio (30 giorni fa)
+        start_date = date.today() - timedelta(days=30)
+
+        # Recupera il numero di vendite per ogni data
+        sales_data = Order.objects.filter(order_date__gte=start_date).values('order_date').annotate(
+            num_sales=Count('sold_bikes')).order_by('order_date')
+        return list(sales_data)
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sales_by_bike_type'] = self.get_sales_by_bike_type()
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            sales_data = self.get_sales_by_bike_type()
+            return JsonResponse(sales_data, safe=False)
+        return super().render_to_response(context, **response_kwargs)

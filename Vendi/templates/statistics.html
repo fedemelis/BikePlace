@@ -1,0 +1,79 @@
+{% extends 'base_vendor.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Statistiche Vendite per Tipo di Bici</h2>
+        <canvas id="salesChart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Recupera i dati delle vendite tramite richiesta AJAX
+            fetch(window.location.href, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                var labels = data.map(item => item.type_of_bike);
+                var sales = data.map(item => item.num_sales);
+                var avgPrices = data.map(item => item.avg_price);
+
+                var ctx = document.getElementById('salesChart').getContext('2d');
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Numero di Vendite',
+                                data: sales,
+                                type: 'bar',
+                                backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1,
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: 'Prezzo Medio',
+                                data: avgPrices,
+                                type: 'bar',
+                                backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 1,
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                stepSize: 1
+                            },
+                            y1: {
+                                beginAtZero: true,
+                                position: 'right',
+                                grid: {
+                                    drawOnChartArea: false
+                                },
+                                ticks: {
+                                    callback: function(value, index, values) {
+                                        return value + ' €';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Errore durante il recupero dei dati delle vendite:', error);
+            });
+        });
+    </script>
+{% endblock %}
