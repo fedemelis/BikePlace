@@ -44,7 +44,7 @@
             <a class="nav-link" href="{% url 'welcome_page' %}">Home</a>
             <a class="nav-link" href="{% url 'Acquista:listabici' %}">Compra</a>
             <a class="nav-link" href="{% url 'Vendi:home_vendite' %}">Vendi</a>
-            <a class="nav-link" href="#">Crea</a>
+            <a class="nav-link" href="{% url 'Acquista:crea-bici-composta' %}">Crea</a>
             <a class="nav-link" href="{% url 'Acquista:carrello' status="visit" %}"><i class="fas fa-shopping-cart"></i></a>
             <a class="nav-link" href="{% url 'Acquista:ordini' %}"><i class="fas fa-file-alt"></i></a>
             {% if user.is_authenticated %}

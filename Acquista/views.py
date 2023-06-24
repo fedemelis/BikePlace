@@ -9,6 +9,8 @@ from django.utils import timezone
 from django.views.decorators.http import require_POST
 from django.views.generic import *
 from django.db.models import Q, Subquery
+
+from Acquista.forms import CompositeBikeForm
 from Acquista.models import *
 from django.db.models import Sum
 
@@ -86,6 +88,8 @@ class BikeListView(ListView):
         elif sort_by == 'year_d':
             # Ordina le bici per anno di produzione in ordine decrescente
             queryset = queryset.order_by('-year_of_production')
+
+        queryset = queryset.exclude(compositebike__isnull=False)
 
         return queryset
 
@@ -314,6 +318,16 @@ class FavoriteBikeListView(GroupRequiredMixin, ListView):
         return Bike.objects.filter(pk__in=favBike)
 
 
+class CreateCompositeBikeView(GroupRequiredMixin, CreateView):
+    group_required = 'Users'
+    model = CompositeBike
+    form_class = CompositeBikeForm
+    template_name = "create_composite_bike.html"
+    success_url = reverse_lazy('Acquista:home_acquisti')
+
+    def form_valid(self, form):
+        form.instance.vendor = self.request.user
+        return super().form_valid(form)
 
 
 

@@ -27,4 +27,6 @@ urlpatterns = [
 
     path('listapreferiti/<pk>/', views.FavoriteBikeListView.as_view(), name='listapreferiti'),
 
+    path('creabici/', views.CreateCompositeBikeView.as_view(), name='crea-bici-composta'),
+
 ]
