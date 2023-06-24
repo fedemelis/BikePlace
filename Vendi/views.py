@@ -126,6 +126,16 @@ class AddComponentView(GroupRequiredMixin, CreateView):
     fields = ['category', 'name', 'price']
     template_name = 'add_component.html'
     success_url = reverse_lazy('Vendi:home_vendor')
+    # differenziare i success url
+
+    def get_success_url(self):
+        referer = self.request.GET.get('next')
+        if referer:
+            if 'homevendor' in referer:
+                return reverse_lazy('Vendi:home_vendor')
+            elif 'listcomponents' in referer:
+                return reverse_lazy('Vendi:list_components')
+        return self.success_url
 
     def form_valid(self, form):
         form.instance.vendor = self.request.user
@@ -154,3 +164,23 @@ class ComponentListView(GroupRequiredMixin, ListView):
         context['copertoni'] = BikeComponent.objects.filter(category='Copertoni', vendor=self.request.user.pk)
 
         return context
+
+
+class ComponentUpdateView(GroupRequiredMixin, UpdateView):
+    group_required = "Vendors"
+    model = BikeComponent
+    fields = ['category', 'name', 'price']
+    template_name = 'component_update.html'
+    success_url = reverse_lazy('Vendi:list_components')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+@require_POST
+def delete_component(request, pk):
+    component = get_object_or_404(BikeComponent, pk=pk)
+    if not BikeComponent.objects.contains(component):
+        return HttpResponse(status=407, content='Errore')
+    component.delete()
+    return HttpResponse(status=207)

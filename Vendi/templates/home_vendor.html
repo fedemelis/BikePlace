@@ -39,7 +39,7 @@
         <div class="col-md-12">
             <div class="d-flex justify-content-start">
                 <a href="{% url 'Vendi:add_bike' %}" class="btn btn-primary mt-4">Aggiungi una bici</a>
-                <a href="{% url 'Vendi:add_component' %}" class="btn btn-primary mt-4">Aggiungi un componente</a>
+                <a href="{% url 'Vendi:add_component' %}?next={{ request.path }}" class="btn btn-primary mt-4">Aggiungi un componente</a>
             </div>
         </div>
         <br>
