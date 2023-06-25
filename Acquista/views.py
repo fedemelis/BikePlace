@@ -242,7 +242,10 @@ class OrderConfirmationView(GroupRequiredMixin, View):
 
             total += item.bike.price
 
-            Bike.objects.filter(pk=item.bike.pk).delete()
+            if not item.bike.brand == "Creata da me":
+                print("HO ELIMINATOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+                Bike.objects.filter(pk=item.bike.pk).delete()
+
             # Aggiungi l'istanza di SoldBike all'ordine
             order.sold_bikes.add(sold_bike)
 
@@ -329,7 +332,23 @@ class CreateCompositeBikeView(GroupRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.vendor = self.request.user
-        return super().form_valid(form)
+        # Salva la bici composta
+        response = super().form_valid(form)
+
+        # Aggiungi la bici composta al carrello
+        carrello = self.get_shopping_cart()
+        ShoppingCartItem.objects.create(shopping_cart=carrello, bike=self.object)
+
+        return response
+
+    def get_shopping_cart(self):
+        # Verifica se l'utente ha già un carrello, altrimenti crea uno nuovo
+        try:
+            carrello = ShoppingCart.objects.get(user=self.request.user)
+        except ShoppingCart.DoesNotExist:
+            carrello = ShoppingCart.objects.create(user=self.request.user)
+        return carrello
+
 
 
 

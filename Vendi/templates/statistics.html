@@ -1,8 +1,22 @@
 {% extends 'base_vendor.html' %}
 
+
+
+{% load humanize %}
+
 {% block content %}
+
+    <style>
+        .chart-container {
+            display: inline-block;
+            width: calc(20% - 10px); /* Imposta la larghezza del singolo grafico */
+            margin-right: 10px; /* Aggiunge un margine tra i grafici */
+            vertical-align: top; /* Allinea i grafici in cima */
+        }
+    </style>
+
+    <h2>Statistiche Vendite per Tipo di Bici</h2>
     <div class="container">
-        <h2>Statistiche Vendite per Tipo di Bici</h2>
         <canvas id="salesChart"></canvas>
     </div>
 
@@ -15,65 +29,139 @@
                     'X-Requested-With': 'XMLHttpRequest'
                 }
             })
-            .then(response => response.json())
-            .then(data => {
-                var labels = data.map(item => item.type_of_bike);
-                var sales = data.map(item => item.num_sales);
-                var avgPrices = data.map(item => item.avg_price);
+                .then(response => response.json())
+                .then(data => {
+                    var labels = data.map(item => item.type_of_bike);
+                    var sales = data.map(item => item.num_sales);
+                    var avgPrices = data.map(item => item.avg_price);
 
-                var ctx = document.getElementById('salesChart').getContext('2d');
+                    var ctx = document.getElementById('salesChart').getContext('2d');
 
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [
-                            {
-                                label: 'Numero di Vendite',
-                                data: sales,
-                                type: 'bar',
-                                backgroundColor: 'rgba(54, 162, 235, 0.8)',
-                                borderColor: 'rgba(54, 162, 235, 1)',
-                                borderWidth: 1,
-                                yAxisID: 'y'
-                            },
-                            {
-                                label: 'Prezzo Medio',
-                                data: avgPrices,
-                                type: 'bar',
-                                backgroundColor: 'rgba(255, 99, 132, 0.8)',
-                                borderColor: 'rgba(255, 99, 132, 1)',
-                                borderWidth: 1,
-                                yAxisID: 'y1'
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                stepSize: 1
-                            },
-                            y1: {
-                                beginAtZero: true,
-                                position: 'right',
-                                grid: {
-                                    drawOnChartArea: false
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'Numero di Vendite',
+                                    data: sales,
+                                    type: 'bar',
+                                    backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1,
+                                    yAxisID: 'y'
                                 },
-                                ticks: {
-                                    callback: function(value, index, values) {
-                                        return value + ' €';
+                                {
+                                    label: 'Prezzo Medio',
+                                    data: avgPrices,
+                                    type: 'bar',
+                                    backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 1,
+                                    yAxisID: 'y1'
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    stepSize: 1
+                                },
+                                y1: {
+                                    beginAtZero: true,
+                                    position: 'right',
+                                    grid: {
+                                        drawOnChartArea: false
+                                    },
+                                    ticks: {
+                                        callback: function(value, index, values) {
+                                            return value + ' €';
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
+                    });
+                })
+                .catch(error => {
+                    console.error('Errore durante il recupero dei dati delle vendite:', error);
                 });
-            })
-            .catch(error => {
-                console.error('Errore durante il recupero dei dati delle vendite:', error);
-            });
         });
     </script>
+
+    <br><br><br>
+    <h2>Distribuzione pezzi</h2>
+    <br>
+    <div id="chartsContainer"></div>
+
+
+    <script>
+        var componentCounts = JSON.parse('{{ component_counts_json|escapejs }}');
+
+        var colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40', '#9966FF', '#00BFFF', '#FFD700', '#00FF00'];
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var container = document.getElementById('chartsContainer');
+
+            for (var category in componentCounts) {
+                if (componentCounts.hasOwnProperty(category)) {
+                    var labels = [];
+                    var data = [];
+
+                    for (var component in componentCounts[category]) {
+                        if (componentCounts[category].hasOwnProperty(component)) {
+                            labels.push(component);
+                            data.push(componentCounts[category][component]);
+                        }
+                    }
+
+                    var chartContainer = document.createElement('div');
+                    chartContainer.className = 'chart-container';
+
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+
+                    var pieChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: data,
+                                backgroundColor: colors
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            title: {
+                                display: true,
+                                text: category // Aggiunge il testo della categoria come titolo del grafico
+                            },
+                            legend: {
+                                display: false // Nasconde la legenda del grafico
+                            },
+                            tooltips: {
+                                callbacks: {
+                                    label: function(tooltipItem, data) {
+                                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                                        var label = data.labels[tooltipItem.index];
+                                        var value = dataset.data[tooltipItem.index];
+                                        return label + ': ' + value; // Mostra la label e il valore al passaggio del mouse sul grafico
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    chartContainer.appendChild(canvas);
+                    container.appendChild(chartContainer);
+                }
+            }
+        });
+    </script>
+
+    <br><br>
+
 {% endblock %}

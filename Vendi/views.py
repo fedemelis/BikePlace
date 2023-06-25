@@ -1,7 +1,9 @@
+import json
+from collections import defaultdict
 from datetime import timedelta
 
 from django.core.exceptions import ValidationError
-from django.db.models import Count, Avg
+from django.db.models import Count, Avg, Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from braces.views import *
@@ -11,7 +13,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import *
 from PIL import Image
 
-from Acquista.models import Bike, BikeComponent, SoldBike, Order
+from Acquista.models import Bike, BikeComponent, SoldBike, Order, CompositeBike
 from BikePlace.models import GenericUser
 
 
@@ -212,10 +214,26 @@ class StatisticsView(GroupRequiredMixin, TemplateView):
             num_sales=Count('sold_bikes')).order_by('order_date')
         return list(sales_data)
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sales_by_bike_type'] = self.get_sales_by_bike_type()
+
+        current_vendor = self.request.user
+        components_sold = BikeComponent.objects.filter(vendor=current_vendor)
+        component_counts = defaultdict(dict)
+
+        for component in components_sold:
+            composite_bikes = CompositeBike.objects.filter(
+                Q(telaio=component) | Q(manubrio=component) | Q(freno=component) | Q(sellino=component) | Q(
+                    copertoni=component)
+            ).count()
+
+            component_counts[component.category][component.name] = composite_bikes
+
+        context['component_counts_json'] = json.dumps(component_counts)
+
+        print(component_counts)
+
         return context
 
     def render_to_response(self, context, **response_kwargs):
