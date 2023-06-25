@@ -3,26 +3,33 @@
 {% block title %}Acquisti{% endblock %}
 
 {% block content %}
+    <br>
     <div class="d-flex justify-content-center">
-        <ul class="list-group">
-            {% for order in order_list %}
-                <li class="list-group-item">
-                    <div class="card mb-4">
-                        <div class="card-header text-center">
-                            <h5 class="card-title">Ordine:</h5>
+        {% if order_list.count == 0 %}
+            <div class="col-md-12">
+                <h1 class="text-center">Non hai ancora effettuato ordini</h1>
+            </div>
+        {% else %}
+            <ul class="list-group">
+                {% for order in order_list %}
+                    <li class="list-group-item">
+                        <div class="card mb-4">
+                            <div class="card-header text-center">
+                                <h5 class="card-title">Ordine:</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    {% for sold_bike in order.sold_bikes.all %}
+                                        <li class="list-group-item">{{ sold_bike.brand }} - {{ sold_bike.type_of_bike }}</li>
+                                    {% endfor %}
+                                </ul>
+                                <p class="text-end mt-3"><strong>Totale: </strong>{{ order.total_price }}</p>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <ul class="list-group">
-                                {% for sold_bike in order.sold_bikes.all %}
-                                    <li class="list-group-item">{{ sold_bike.brand }} - {{ sold_bike.type_of_bike }}</li>
-                                {% endfor %}
-                            </ul>
-                            <p class="text-end mt-3"><strong>Totale: </strong>{{ order.total_price }}</p>
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
 {% endblock %}
 

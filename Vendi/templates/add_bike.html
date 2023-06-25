@@ -1,10 +1,30 @@
 {% extends 'base_acquisti.html' %}
 {% load crispy_forms_tags %}
-{% block content %}
-<form method="post" enctype="multipart/form-data"> {% csrf_token %}
- {{form | crispy}}
 
- <input type="submit" class="btn btn-success" value="Conferma">
+{% block title %}Aggiungi una bici{% endblock %}
 
- </form>
+{% block nav %}
+    {% if user.groups.all.0.name == "Users" %}
+        {% include 'navbar_acquisti.html' %}
+    {% elif user.groups.all.0.name == "Vendors"%}
+        {% include 'navbar_vendor.html' %}
+    {% endif %}
 {% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <form method="post" enctype="multipart/form-data" class="my-4">
+        {% csrf_token %}
+        {{ form | crispy }}
+
+        <div class="mt-4 text-center">
+          <input type="submit" class="btn btn-success" value="Conferma">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

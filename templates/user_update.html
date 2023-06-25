@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
+{% block nav %}
+    {% if user.groups.all.0.name == "Users" %}
+        {% include 'navbar_acquisti.html' %}
+    {% elif user.groups.all.0.name == "Vendors"%}
+        {% include 'navbar_vendor.html' %}
+    {% endif %}
+{% endblock %}
+
+{% block title %}Modifica profilo{% endblock %}
+
 {% block content %}
     <div class="container">
         <div class="row justify-content-center">

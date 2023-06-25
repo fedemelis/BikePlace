@@ -5,25 +5,69 @@
 {% load static %}
 <link rel="stylesheet" href="{% static '/css/style.css' %}">
 
-<body>
+{% block nav %}
+    {% if user.groups.all.0.name == "Users" %}
+        {% include 'navbar_acquisti.html' %}
+    {% elif user.groups.all.0.name == "Vendors"%}
+        {% include 'navbar_vendor.html' %}
+    {% else %}
+        {% include 'navbar.html' %}
+    {% endif %}
+{% endblock %}
+
+
 {% block content %}
-    <div class="main-container text-center center-container">
+
+    <style>
+        body {
+            background-image: url("{% static 'images/background3.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+        {#position: relative;#}
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("{% static 'images/background3.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            filter: blur(5px); /* Imposta il valore di sfocatura desiderato */
+            z-index: -1;
+        }
+
+        .highlithed-title {
+            color: white;
+            text-shadow: 4px 2px 4px #000000;
+        }
+
+        .bigtitle {
+            font-size: 56px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 2px lightblue;
+        }
+
+        .discover-link:hover {
+            text-decoration: none;
+        }
+
+
+    </style>
+
+    <div class="main-container text-center center-container ">
         {% if user.is_authenticated %}
-            <h1>Ciao {{ user.username }}! Benvenuto su BikePlace </h1>
-            <p>{% for foo in user.groups.all %}
-                {{ foo.name }}
-            {% endfor %}
-            </p>
-            <p>DEBUG: Sei loggato</p>
-            <a href="{% url "logout" %}" class="btn btn-primary">Logout</a>
+            <h1 class="highlithed-title">Ciao {{ user.username }}! Benvenuto su BikePlace </h1>
+            <br><br>
         {% else %}
-            <h1>Benvenuto su BikePlace</h1>
-            <p>DEBUG: Non sei loggato</p>
-            <a href="{% url "login" %}" class="btn btn-primary">Login</a>
-            <a href="{% url "user_registrazione" %}" class="btn btn-secondary">Non hai un account? Registrati!</a>
+            <br><br>
             <h3><a href="{% url "vendor_registrazione" %}">Sei un'azienda? Vuoi espandere il tuo mercato su BikePlace? Registrati qui!</a></h3>
         {% endif %}
-        <h3><a href="{% url "Acquista:listabici" %}">Scopri subito le bici</a></h3>
         <br>
         <br>
         <br>
@@ -34,29 +78,27 @@
 
         {% if user.groups.all.0.name == "Users" %}
             <div class="text-center">
-                <h1 class="display-1">
+                <h1 class="display-1 bigtitle">
                     <a href="{% url "Acquista:home_acquisti" %}" class="discover-link">Scopri la bici dei tuoi sogni!</a>
                 </h1>
             </div>
+            <br><br>
             <div class="text-center">
-                <h1 class="display-1">
+                <h1 class="display-1 bigtitle">
                     <a href="{% url "Vendi:home_vendite" %}" class="discover-link">Valorizza il tuo usato!</a>
                 </h1>
             </div>
 
         {% elif user.groups.all.0.name == "Vendors" %}
             <div class="text-center">
-                <h1 class="display-1">
-
-{#                    TODO: link alla home dei produttori#}
-
-                    <a href="{% url "Vendi:home_vendor" %}" class="discover-link">Home produttori!</a>
+                <h1 class="display-1 bigtitle">
+                    <a href="{% url "Vendi:home_vendor" %}" class="discover-link">Vai alla home!</a>
                 </h1>
             </div>
 
         {% else %}
             <div class="text-center">
-                <h1 class="display-1">
+                <h1 class="display-1 bigtitle">
                     <a href="{% url "Acquista:listabici" %}" class="discover-link">Vedi subito le bici!</a>
                 </h1>
             </div>
@@ -64,5 +106,4 @@
         {% endif  %}
     </div>
 {% endblock %}
-</body>
 

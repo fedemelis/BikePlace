@@ -13,9 +13,21 @@
             margin-right: 10px; /* Aggiunge un margine tra i grafici */
             vertical-align: top; /* Allinea i grafici in cima */
         }
+
+        .distanced {
+            margin-right: 30px;
+        }
+
+        h2  {
+            margin-left: 20px;
+        }
+
     </style>
 
-    <h2>Statistiche Vendite per Tipo di Bici</h2>
+    <div>
+        <h2>Statistiche Vendite per Tipo di Bici</h2>
+        <a href="{% url 'Vendi:home_vendor' %}" class="btn btn-secondary float-right distanced">Torna alla lista</a>
+    </div>
     <div class="container">
         <canvas id="salesChart"></canvas>
     </div>

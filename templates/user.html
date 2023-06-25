@@ -1,7 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block nav %}
+    {% if user.groups.all.0.name == "Users" %}
+        {% include 'navbar_acquisti.html' %}
+    {% elif user.groups.all.0.name == "Vendors"%}
+        {% include 'navbar_vendor.html' %}
+    {% endif %}
+{% endblock %}
+
+{% block title %}Dettagli Profilo{% endblock %}
+
 {% block content %}
+
+    <style>
+        .user-image {
+            width: 300px; /* Imposta la larghezza desiderata */
+            height: 300px; /* Imposta l'altezza desiderata */
+            object-fit: cover; /* Adatta l'immagine all'area del contenitore mantenendo l'aspect ratio */
+        }
+    </style>
 
     <div class="container">
         <div class="row justify-content-center">
@@ -19,7 +37,7 @@
                     <div class="card-body text-center">
                         <div class="mb-4">
                             {% if user.picture %}
-                                <img src="{{ user.picture.url }}" class="img-fluid rounded-circle" alt="Foto Profilo">
+                                <img src="{{ user.picture.url }}" class="img-fluid rounded-circle user-image" alt="Foto Profilo">
                             {% else %}
                                 <img src="{% static '/images/default_profile.jpg' %}" class="img-fluid rounded-circle" alt="Foto Profilo">
                             {% endif %}

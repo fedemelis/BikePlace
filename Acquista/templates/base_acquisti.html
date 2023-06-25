@@ -195,7 +195,9 @@
 </script>
 
 <body>
-{% include 'navbar_acquisti.html' %}
+{% block nav %}
+    {% include 'navbar_acquisti.html' %}
+{% endblock %}
 
 {% block content %}
 

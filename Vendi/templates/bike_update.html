@@ -1,6 +1,13 @@
 {% extends 'base_acquisti.html' %}
 {% load crispy_forms_tags %}
 
+
+{% if user.groups.all.0.name == "Vendors" %}
+    {% block nav %}
+        {% include 'navbar_vendor.html' %}
+    {% endblock %}
+{% endif %}
+
 {% block content %}
 
     <div class="container">

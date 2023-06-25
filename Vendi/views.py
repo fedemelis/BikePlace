@@ -25,7 +25,7 @@ class BikeOnSale(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user_id = self.request.user.pk
-        return Bike.objects.filter(vendor=user_id)
+        return Bike.objects.filter(vendor=user_id).exclude(brand="Creata da me")
 
 
 class BikeUpdateView(LoginRequiredMixin, UpdateView):

@@ -18,7 +18,10 @@
 </head>
 
 <body>
-{% include 'navbar.html' %}
+{% block nav %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
 <br>
 {% block content %}
 

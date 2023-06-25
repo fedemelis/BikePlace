@@ -25,11 +25,13 @@ class UserCreateView(CreateView):
     template_name = "user_create.html"
     success_url = reverse_lazy("login")
 
+
 class VendorCreateView(CreateView):
     model = GenericUser
     form_class = VendorForm
     template_name = "user_create.html"
     success_url = reverse_lazy("login")
+
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = GenericUser
@@ -51,6 +53,23 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
+
+        user = form.save(commit=False)
+
+        if form.cleaned_data['picture']:
+            image = form.cleaned_data['picture']
+            max_image_size = (400, 300)  # Dimensioni massime dell'immagine desiderate
+            try:
+                img = Image.open(image)
+                img.thumbnail(max_image_size, Image.ANTIALIAS)
+                img.save(user.picture.path)
+            except IOError:
+                # Gestisci l'errore se l'immagine non può essere ridimensionata
+                form.add_error('image',
+                               'Impossibile ridimensionare l\'immagine. Assicurati che sia nel formato corretto e abbia dimensioni adeguate.')
+
+        user.save()
+
         login(self.request, self.object)  # Reimposta la sessione utente
         return response
 
