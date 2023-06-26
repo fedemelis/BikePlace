@@ -111,6 +111,23 @@
                 </div>
             </div>
         </div>
+        <br><br>
+        <div class="col-md-6 mx-auto">
+            <h1>Un sconto esclusivo</h1>
+            <div class="card">
+                <img src="{{ discounted_bike.bike.image.url }}" class="card-img-top bike-image" alt="{{ discounted_bike.brand }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ discounted_bike.brand }}</h5>
+                    <p class="card-text">{{ discounted_bike.type_of_bike }}</p>
+                    <p class="card-text">Year of Production: {{ discounted_bike.year_of_production }}</p>
+                    <p class="card-text"><del>Old price: €{{ discounted_bike.bike.price }}</del></p>
+                    <p class="card-text">New price: €{{ discounted_bike.newPrice }}</p>
+                    <a href="{% url "Acquista:dettagliobici" discounted_bike.bike.pk %}?next={{ request.path }}" class="btn btn-primary float-right">Dettagli</a>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 {% endblock %}
 

@@ -1,3 +1,4 @@
+import asyncio
 import random
 from itertools import islice
 
@@ -16,7 +17,7 @@ from Acquista.models import *
 from django.db.models import Sum
 
 from BikePlace.models import UserInterest
-from BikePlace.utils import build_matrix
+from BikePlace.utils import build_matrix, sendMail
 
 
 class HomeAcquistiView(GroupRequiredMixin, TemplateView):
@@ -65,7 +66,56 @@ class HomeAcquistiView(GroupRequiredMixin, TemplateView):
             Q(vendor=self.request.user) | Q(soldbike__isnull=False)
         ).filter(type_of_bike=user_bikes[2]).order_by('?').first()
 
-        print(recommended1, recommended2, recommended3)
+        #prendo gli interessi dell'utente
+        user_interest = UserInterest.objects.filter(user=self.request.user).first()
+
+        # Seleziona casualmente una categoria dalle categorie dell'oggetto UserInterest
+        category = random.choice(user_interest.categories.all())
+
+        print(category)
+
+        # Seleziona una bici casuale della categoria scelta
+        discounted_bike = Bike.objects.exclude(
+            Q(vendor=self.request.user) | Q(soldbike__isnull=False)
+        ).filter(type_of_bike=category).order_by('?').first()
+
+        existing_discount = BikeDiscount.objects.filter(user=self.request.user).first()
+
+        if existing_discount:
+            context['discounted_bike'] = existing_discount
+            # Verifica se lo sconto è attivo da più di un giorno
+            time_threshold = timezone.now() - timezone.timedelta(days=1)
+            if existing_discount.start_date < time_threshold:
+                # Aggiorna lo sconto con i nuovi valori
+                existing_discount.bike = discounted_bike
+                existing_discount.newPrice = discounted_bike.price * 0.5
+                existing_discount.start_date = timezone.now()
+                existing_discount.save()
+                if self.request.user.email:
+                    asyncio.run(sendMail(
+                        "Nuovo sconto disponibile",
+                        "Ciao, è disponibile uno sconto per una bici che potrebbe interessarti. Vai su BikePlace per maggiori informazioni.",
+                        "fedemelis1@gmail.com",
+                        [self.request.user.email]
+                    ))
+        else:
+            # Crea un nuovo oggetto BikeDiscount
+            if discounted_bike:
+                bike_discount = BikeDiscount.objects.create(user=self.request.user, bike=discounted_bike,
+                                                            newPrice=discounted_bike.price * 0.5,
+                                                            start_date=timezone.now())
+                if self.request.user.email:
+                    asyncio.run(sendMail(
+                        "Nuovo sconto disponibile",
+                        "Ciao, è disponibile uno sconto per una bici che potrebbe interessarti. Vai su BikePlace per maggiori informazioni.",
+                        "fedemelis1@gmail.com",
+                        [self.request.user.email]
+                    ))
+                context['discounted_bike'] = bike_discount
+
+        # print(recommended1, recommended2, recommended3)
+
+        print(discounted_bike)
 
         context['recommended1'] = recommended1
         context['recommended2'] = recommended2

@@ -148,3 +148,16 @@ class CompositeBike(Bike):
     class Meta:
         verbose_name_plural = "Bici Composte"
 
+
+class BikeDiscount(models.Model):
+    user = models.ForeignKey(GenericUser, on_delete=models.CASCADE, related_name='discount')
+    bike = models.ForeignKey(Bike, on_delete=models.CASCADE, related_name='discount')
+    newPrice = models.IntegerField()
+    start_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Sconto sulla bici {self.bike.type_of_bike} {self.bike.brand}"
+
+    class Meta:
+        verbose_name_plural = "Sconti Bici"
+

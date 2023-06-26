@@ -108,8 +108,7 @@ def get_category_recommendations(similarity_matrix, matrix, user, max_recommenda
 
     return recommended_categories
 
-
-def sendMail(oggetto, body, sender, reciver):
+async def sendMail(oggetto, body, sender, reciver):
     send_mail(
         oggetto,  # Oggetto del messaggio
         body,  # Contenuto del messaggio

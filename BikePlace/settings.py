@@ -154,6 +154,14 @@ EMAIL_HOST_PASSWORD = 'ymigqtjcbabjatlf'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+# # Configurazioni per Celery
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'  # URL del broker di code Redis
+#
+# # Configurazione per Redis
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TASK_SERIALIZER = 'json'
 #
 #
 # SOCIALACCOUNT_PROVIDERS = {
