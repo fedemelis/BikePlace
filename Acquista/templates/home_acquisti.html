@@ -5,6 +5,14 @@
 
 
 {% block content %}
+    <style>
+    .bike-image {
+            width: 300px; /* Imposta la larghezza desiderata */
+            height: 200px; /* Imposta l'altezza desiderata */
+            object-fit: cover; /* Adatta l'immagine all'area del contenitore mantenendo l'aspect ratio */
+            align-items: center;
+        }
+    </style>
     <br>
     <div class="container">
         <div class="row">
@@ -73,7 +81,7 @@
         </div>
         <br><br>
         <h2>Qualcosa che potrebbe interessarti</h2>
-        <div class="row">
+        <div class="row custom-row justify-content-center">
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <img src="{{ recommended1.image.url }}" class="card-img-top bike-image" alt="{{ recommended1.brand }}">
@@ -117,10 +125,10 @@
             <div class="card">
                 <img src="{{ discounted_bike.bike.image.url }}" class="card-img-top bike-image" alt="{{ discounted_bike.brand }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ discounted_bike.brand }}</h5>
-                    <p class="card-text">{{ discounted_bike.type_of_bike }}</p>
-                    <p class="card-text">Year of Production: {{ discounted_bike.year_of_production }}</p>
-                    <p class="card-text"><del>Old price: €{{ discounted_bike.bike.price }}</del></p>
+                    <h5 class="card-title">{{ discounted_bike.bike.brand }}</h5>
+                    <p class="card-text">{{ discounted_bike.bike.type_of_bike }}</p>
+                    <p class="card-text">Year of Production: {{ discounted_bike.bike.year_of_production }}</p>
+                    <p class="card-text">Old price: €<del>{{ discounted_bike.bike.price }}</del></p>
                     <p class="card-text">New price: €{{ discounted_bike.newPrice }}</p>
                     <a href="{% url "Acquista:dettagliobici" discounted_bike.bike.pk %}?next={{ request.path }}" class="btn btn-primary float-right">Dettagli</a>
                 </div>
