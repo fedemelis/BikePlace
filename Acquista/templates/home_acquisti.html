@@ -6,7 +6,7 @@
 
 {% block content %}
     <style>
-    .bike-image {
+        .bike-image {
             width: 300px; /* Imposta la larghezza desiderata */
             height: 200px; /* Imposta l'altezza desiderata */
             object-fit: cover; /* Adatta l'immagine all'area del contenitore mantenendo l'aspect ratio */
@@ -15,63 +15,68 @@
     </style>
     <br>
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <h2>Bici viste di recente</h2>
-                <div id="carousel1" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <!-- Schede delle bici -->
-                        <div class="carousel-item active">
-                            <div class="card-deck">
-                                {% for bike in first_three_bike %}
-                                    <div class="card">
-                                        <div class="card-img-container">
-                                            <img src="{{ bike.image.url }}" class="card-img-top bike-image" alt="Bike Image">
+        {% if first_three_bike %}
+            <div class="row">
+                <div class="col">
+                    <h2>Bici viste di recente</h2>
+                    <div id="carousel1" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <!-- Schede delle bici -->
+                            <div class="carousel-item active">
+                                <div class="card-deck">
+                                    {% for bike in first_three_bike %}
+                                        <div class="card">
+                                            <div class="card-img-container">
+                                                <img src="{{ bike.image.url }}" class="card-img-top bike-image" alt="Bike Image">
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ bike.brand }}</h5>
+                                                <p class="card-text">Tipo: {{ bike.type_of_bike }}</p>
+                                                <p class="card-text">Anno di produzione: {{ bike.year_of_production }}</p>
+                                                <p class="card-text">Prezzo: {{ bike.price }}</p>
+                                                <a href="{% url "Acquista:dettagliobici" bike.pk %}?next={{ request.path }}" class="btn btn-primary">Dettagli</a>
+                                            </div>
                                         </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ bike.brand }}</h5>
-                                            <p class="card-text">Tipo: {{ bike.type_of_bike }}</p>
-                                            <p class="card-text">Anno di produzione: {{ bike.year_of_production }}</p>
-                                            <p class="card-text">Prezzo: {{ bike.price }}</p>
-                                            <a href="{% url "Acquista:dettagliobici" bike.pk %}?next={{ request.path }}" class="btn btn-primary">Dettagli</a>
-                                        </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
+                                </div>
                             </div>
-                        </div>
-                        <!-- Altre schede delle bici -->
-                        <div class="carousel-item">
-                            <div class="card-deck">
-                                {% for bike in other_bike %}
-                                    <div class="card">
-                                        <div class="card-img-container">
-                                            <img src="{{ bike.image.url }}" class="card-img-top bike-image" alt="Bike Image">
+                            <!-- Altre schede delle bici -->
+                            <div class="carousel-item">
+                                <div class="card-deck">
+                                    {% for bike in other_bike %}
+                                        <div class="card">
+                                            <div class="card-img-container">
+                                                <img src="{{ bike.image.url }}" class="card-img-top bike-image" alt="Bike Image">
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ bike.brand }}</h5>
+                                                <p class="card-text">Tipo: {{ bike.type_of_bike }}</p>
+                                                <p class="card-text">Anno di produzione: {{ bike.year_of_production }}</p>
+                                                <p class="card-text">Prezzo: {{ bike.price }}</p>
+                                                <a href="{% url "Acquista:dettagliobici" bike.pk %}?next={{ request.path }}" class="btn btn-primary">Dettagli</a>
+                                            </div>
                                         </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ bike.brand }}</h5>
-                                            <p class="card-text">Tipo: {{ bike.type_of_bike }}</p>
-                                            <p class="card-text">Anno di produzione: {{ bike.year_of_production }}</p>
-                                            <p class="card-text">Prezzo: {{ bike.price }}</p>
-                                            <a href="{% url "Acquista:dettagliobici" bike.pk %}?next={{ request.path }}" class="btn btn-primary">Dettagli</a>
-                                        </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
+                                </div>
                             </div>
+
                         </div>
+                        {% if other_bike %}
+                            <!-- Freccia sinistra -->
+                            <a class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="false"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <!-- Freccia destra -->
+                            <a class="carousel-control-next" href="#carousel1" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="false"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        {% endif %}
                     </div>
-                    <!-- Freccia sinistra -->
-                    <a class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="false"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <!-- Freccia destra -->
-                    <a class="carousel-control-next" href="#carousel1" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="false"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
                 </div>
             </div>
-        </div>
+        {% endif %}
         <br>
         <br>
         <div class="text-center">
