@@ -1,3 +1,4 @@
+import random
 from itertools import islice
 
 from braces.views import *
@@ -15,6 +16,7 @@ from Acquista.models import *
 from django.db.models import Sum
 
 from BikePlace.models import UserInterest
+from BikePlace.utils import build_matrix
 
 
 class HomeAcquistiView(GroupRequiredMixin, TemplateView):
@@ -46,6 +48,28 @@ class HomeAcquistiView(GroupRequiredMixin, TemplateView):
 
         context['first_three_bike'] = first_three_bike
         context['other_bike'] = other_bike
+
+        recommended_bike_dict = build_matrix()
+
+        user_bikes = recommended_bike_dict.get(self.request.user.username, {})
+
+        recommended1 = Bike.objects.exclude(
+            Q(vendor=self.request.user) | Q(soldbike__isnull=False)
+        ).filter(type_of_bike=user_bikes[0]).order_by('?').first()
+
+        recommended2 = Bike.objects.exclude(
+            Q(vendor=self.request.user) | Q(soldbike__isnull=False)
+        ).filter(type_of_bike=user_bikes[1]).order_by('?').first()
+
+        recommended3 = Bike.objects.exclude(
+            Q(vendor=self.request.user) | Q(soldbike__isnull=False)
+        ).filter(type_of_bike=user_bikes[2]).order_by('?').first()
+
+        print(recommended1, recommended2, recommended3)
+
+        context['recommended1'] = recommended1
+        context['recommended2'] = recommended2
+        context['recommended3'] = recommended3
 
         return context
 

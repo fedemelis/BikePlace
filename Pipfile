@@ -11,6 +11,8 @@ crispy-bootstrap4 = "*"
 pillow = "*"
 django-extensions = "*"
 piexif = "*"
+scikit-learn = "*"
+google-auth = "*"
 
 [dev-packages]
 

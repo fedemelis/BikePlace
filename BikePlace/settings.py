@@ -145,3 +145,28 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'BikePlace.GenericUser'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'fedemelis1@gmail.com'
+EMAIL_HOST_PASSWORD = 'ymigqtjcbabjatlf'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+#
+#
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'APP': {
+#             'client_id': '843315829636-g41etu64ipmr0ecbhutrvi0todraf7l4.apps.googleusercontent.com',
+#             'secret': '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',
+#             'key': ''
+#         },
+#         'SCOPE': [
+#             'https://www.googleapis.com/auth/userinfo.email',
+#             'https://www.googleapis.com/auth/userinfo.profile'
+#         ],
+#         'AUTH_PARAMS': {'access_type': 'online'}
+#     }
+# }

@@ -31,6 +31,11 @@
                     {#                        <a href="{% url 'Acquista:listabici' %}" class="btn btn-secondary float-right">Torna alla lista</a>#}
                     {#                    {% endif %}#}
                     <a href="{% url 'Acquista:listabici' %}" class="btn btn-secondary float-right">Torna alla lista</a>
+                    {% if user.groups.all.0.name == "Users" %}
+                        <a href="{% url 'Acquista:home_acquisti' %}" class="btn btn-secondary float-right">Torna alla home</a>
+                    {% elif user.groups.all.0.name == "Vendors"%}
+                        <a href="{% url 'Vendi:home_vendor' %}" class="btn btn-secondary float-right">Torna alla home</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
