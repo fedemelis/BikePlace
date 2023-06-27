@@ -8,7 +8,7 @@
     <div class="row custom-row justify-content-center">
         <div class="col-md-6">
             <div class="card mb-4">
-                <img src="{{ bici.image.url }}" class="card-img-top bike-image-detail" alt="{{ bici.type_of_bike }}">
+                <img src="{{ bici.image.url }}" class="card-img-top bike-image-detail mx-auto" alt="{{ bici.type_of_bike }}">
                 <div class="card-body">
                     {% if bici.pk in preferiti %}
                         <a href="{% url 'Acquista:rimuovi-preferito' bici.pk %}?q={{ request.GET.q }}&sort={{ request.GET.sort }}" class="text-warning float-right">
