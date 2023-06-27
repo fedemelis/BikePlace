@@ -19,7 +19,8 @@
                             <br>
                             <div class="button-container">
                                 <div class="text-right">
-                                    <button onclick="goBack()" class="btn btn-secondary">Indietro</button>
+                                    <a href="{% url 'Vendi:list_components' %}" class="btn btn-secondary float-right">Indietro</a>
+                                    <a href="{% url 'Vendi:home_vendor' %}" class="btn btn-secondary float-right">Torna alla home</a>
                                 </div>
                             </div>
                         </div>
@@ -29,9 +30,4 @@
         </div>
     </div>
 
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
 {% endblock %}

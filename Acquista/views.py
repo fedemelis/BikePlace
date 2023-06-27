@@ -51,20 +51,24 @@ class HomeAcquistiView(GroupRequiredMixin, TemplateView):
         context['other_bike'] = other_bike
 
         recommended_bike_dict = build_matrix()
-
         user_bikes = recommended_bike_dict.get(self.request.user.username, {})
 
-        recommended1 = Bike.objects.exclude(
-            Q(vendor=self.request.user) | Q(soldbike__isnull=False)
-        ).filter(type_of_bike=user_bikes[0]).order_by('?').first()
+        recommended1 = None
+        recommended2 = None
+        recommended3 = None
 
-        recommended2 = Bike.objects.exclude(
-            Q(vendor=self.request.user) | Q(soldbike__isnull=False)
-        ).filter(type_of_bike=user_bikes[1]).order_by('?').first()
-
-        recommended3 = Bike.objects.exclude(
-            Q(vendor=self.request.user) | Q(soldbike__isnull=False)
-        ).filter(type_of_bike=user_bikes[2]).order_by('?').first()
+        if len(user_bikes) > 0:
+            recommended1 = Bike.objects.exclude(
+                Q(vendor=self.request.user) | Q(soldbike__isnull=False)
+            ).filter(type_of_bike=user_bikes[0]).order_by('?').first()
+        if len(user_bikes) > 1:
+            recommended2 = Bike.objects.exclude(
+                Q(vendor=self.request.user) | Q(soldbike__isnull=False)
+            ).filter(type_of_bike=user_bikes[1]).order_by('?').first()
+        if len(user_bikes) > 2:
+            recommended3 = Bike.objects.exclude(
+                Q(vendor=self.request.user) | Q(soldbike__isnull=False)
+            ).filter(type_of_bike=user_bikes[2]).order_by('?').first()
 
         #prendo gli interessi dell'utente
         user_interest = UserInterest.objects.filter(user=self.request.user).first()
@@ -117,9 +121,12 @@ class HomeAcquistiView(GroupRequiredMixin, TemplateView):
 
         print(discounted_bike)
 
-        context['recommended1'] = recommended1
-        context['recommended2'] = recommended2
-        context['recommended3'] = recommended3
+        if recommended1:
+            context['recommended1'] = recommended1
+        if recommended2:
+            context['recommended2'] = recommended2
+        if recommended3:
+            context['recommended3'] = recommended3
 
         return context
 
@@ -357,7 +364,13 @@ class AggiungiPreferitoView(GroupRequiredMixin, View):
 
         favBike.save()
 
-        return redirect('Acquista:dettagliobici', pk=pk)
+        redirect_url = reverse('Acquista:dettagliobici', kwargs={'pk': pk})
+        query_params = request.GET.urlencode()
+
+        if query_params:
+            redirect_url += '?' + query_params
+
+        return redirect(redirect_url)
 
 
 class RimuoviPreferitoView(GroupRequiredMixin, View):
@@ -369,7 +382,13 @@ class RimuoviPreferitoView(GroupRequiredMixin, View):
 
         FavoriteBike.objects.filter(user=user, bike=bici).delete()
 
-        return redirect('Acquista:dettagliobici', pk=pk)
+        redirect_url = reverse('Acquista:dettagliobici', kwargs={'pk': pk})
+        query_params = request.GET.urlencode()
+
+        if query_params:
+            redirect_url += '?' + query_params
+
+        return redirect(redirect_url)
 
 
 

@@ -87,42 +87,48 @@
         <br><br>
         <h2>Qualcosa che potrebbe interessarti</h2>
         <div class="row custom-row justify-content-center">
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="{{ recommended1.image.url }}" class="card-img-top bike-image" alt="{{ recommended1.brand }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ recommended1.brand }}</h5>
-                        <p class="card-text">{{ recommended1.type_of_bike }}</p>
-                        <p class="card-text">Year of Production: {{ recommended1.year_of_production }}</p>
-                        <p class="card-text">Price: €{{ recommended1.price }}</p>
-                        <a href="{% url "Acquista:dettagliobici" recommended1.pk %}?next={{ request.path }}" class="btn btn-primary float-right">Dettagli</a>
+            {% if recommended1 %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ recommended1.image.url }}" class="card-img-top bike-image" alt="{{ recommended1.brand }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ recommended1.brand }}</h5>
+                            <p class="card-text">{{ recommended1.type_of_bike }}</p>
+                            <p class="card-text">Year of Production: {{ recommended1.year_of_production }}</p>
+                            <p class="card-text">Price: €{{ recommended1.price }}</p>
+                            <a href="{% url "Acquista:dettagliobici" recommended1.pk %}?next={{ request.path }}" class="btn btn-primary float-right">Dettagli</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="{{ recommended2.image.url }}" class="card-img-top bike-image" alt="{{ recommended2.brand }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ recommended2.brand }}</h5>
-                        <p class="card-text">{{ recommended2.type_of_bike }}</p>
-                        <p class="card-text">Year of Production: {{ recommended2.year_of_production }}</p>
-                        <p class="card-text">Price: €{{ recommended2.price }}</p>
-                        <a href="{% url "Acquista:dettagliobici" recommended2.pk %}?next={{ request.path }}" class="btn btn-primary float-right">Dettagli</a>
+            {% endif %}
+            {% if recommended2 %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ recommended2.image.url }}" class="card-img-top bike-image" alt="{{ recommended2.brand }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ recommended2.brand }}</h5>
+                            <p class="card-text">{{ recommended2.type_of_bike }}</p>
+                            <p class="card-text">Year of Production: {{ recommended2.year_of_production }}</p>
+                            <p class="card-text">Price: €{{ recommended2.price }}</p>
+                            <a href="{% url "Acquista:dettagliobici" recommended2.pk %}?next={{ request.path }}" class="btn btn-primary float-right">Dettagli</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="{{ recommended3.image.url }}" class="card-img-top bike-image" alt="{{ recommended3.brand }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ recommended3.brand }}</h5>
-                        <p class="card-text">{{ recommended3.type_of_bike }}</p>
-                        <p class="card-text">Year of Production: {{ recommended3.year_of_production }}</p>
-                        <p class="card-text">Price: €{{ recommended3.price }}</p>
-                        <a href="{% url "Acquista:dettagliobici" recommended3.pk %}?next={{ request.path }}" class="btn btn-primary float-right">Dettagli</a>
+            {% endif %}
+            {% if recommended3 %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ recommended3.image.url }}" class="card-img-top bike-image" alt="{{ recommended3.brand }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ recommended3.brand }}</h5>
+                            <p class="card-text">{{ recommended3.type_of_bike }}</p>
+                            <p class="card-text">Year of Production: {{ recommended3.year_of_production }}</p>
+                            <p class="card-text">Price: €{{ recommended3.price }}</p>
+                            <a href="{% url "Acquista:dettagliobici" recommended3.pk %}?next={{ request.path }}" class="btn btn-primary float-right">Dettagli</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
         <br><br>
         <div class="col-md-6 mx-auto">

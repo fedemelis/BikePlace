@@ -7,7 +7,7 @@ from Acquista.models import CompositeBike, BikeComponent
 from .models import UserInterest, GenericUser, Category
 
 
-def build_matrix():
+def build_matrix(selectedUser = None):
     # Ottenere tutti gli utenti che fanno parte del gruppo "Users"
     users = GenericUser.objects.filter(groups__name='Users')
 
@@ -44,8 +44,12 @@ def build_matrix():
         # print(f"Raccomandazioni per l'utente {user}: {recommended_categories}")
 
 
-    # print(user_recommendations)
-    return user_recommendations
+    if selectedUser is not None:
+        print("SONO NELL'IF")
+        return user_recommendations.get(selectedUser)
+    else:
+        print("SONO NELL'ELSE")
+        return user_recommendations
 
 
 def test():
