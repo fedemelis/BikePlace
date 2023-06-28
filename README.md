@@ -1,2 +1,5 @@
 # BikePlace
-progetto tecnologie web
+TODO
+
+crea venv
+nella dir principale: pipenv install 
