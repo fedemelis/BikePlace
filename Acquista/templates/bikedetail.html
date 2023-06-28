@@ -23,7 +23,12 @@
                     <p class="card-text">Brand: {{ bici.brand }}</p>
                     <p class="card-text">Anno di produzione: {{ bici.year_of_production }}</p>
                     <p class="card-text">Venditore: {{ bici.vendor }}</p>
-                    <p class="card-text">Prezzo: {{ bici.price }}</p>
+                    {% if newprice %}
+                        <p class="card-text">Vecchio prezzo: €<del>{{ bici.price }}</del></p>
+                        <p class="card-text">Nuovo prezzo: €{{ newprice }}</p>
+                    {% else %}
+                        <p class="card-text">Prezzo: {{ bici.price }}</p>
+                    {% endif %}
                     <a href="{% url 'Acquista:aggiungi-al-carrello' bici.pk %}" class="btn btn-primary">Aggiungi al carrello</a>
                     <a href="{% url 'Acquista:listabici' %}?q={{ request.GET.q }}&sort={{ request.GET.sort }}" class="btn btn-secondary float-right">Torna alla lista</a>
                     {% if user.groups.all.0.name == "Users" %}

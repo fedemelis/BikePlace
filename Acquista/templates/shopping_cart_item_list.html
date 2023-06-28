@@ -24,7 +24,11 @@
                         {% for item in cart_items %}
                             <tr>
                                 <td>{{ item.bike.type_of_bike }} - {{ item.bike.brand }}</td>
-                                <td>{{ item.bike.price }}</td>
+                                {% if discount_pk == item.bike.pk %}
+                                    <td>{{ new_price }}</td>
+                                {% else %}
+                                    <td>{{ item.bike.price }}</td>
+                                {% endif %}
                                 <td>
                                     <a href="{% url 'Acquista:rimuovi-dal-carrello' item.bike.pk %}" class="btn btn-danger btn-sm">
                                         Rimuovi dal carrello

@@ -217,6 +217,14 @@ class BikeDetailView(LoginRequiredMixin, DetailView):
         else:
             context['prev_page'] = ""
 
+        current_user = get_user_model().objects.get(pk=self.request.user.pk)
+        detailedBike = self.object
+
+        if BikeDiscount.objects.filter(user=current_user, bike=detailedBike).exists():
+            context['newprice'] = BikeDiscount.objects.get(user=current_user, bike=detailedBike).newPrice
+        else:
+            context['newprice'] = None
+
         return context
 
 
@@ -237,6 +245,19 @@ class ShoppingCartView(GroupRequiredMixin, ListView):
 
         user = self.request.user
         context['carrello_utente'] = ShoppingCart.objects.get(user=user)
+        shopping_cart = ShoppingCart.objects.get(user=user)
+
+        try:
+            cart_item = shopping_cart.items.get(bike__discount__user=user)
+            discounted_bike = cart_item.bike
+            discount = BikeDiscount.objects.get(user=user, bike=discounted_bike)
+
+            context['new_price'] = discount.newPrice
+            context['discount_pk'] = discount.bike.pk
+
+        except ShoppingCartItem.DoesNotExist:
+            context['discounted_bike'] = None
+            context['discount'] = None
 
         return context
 
@@ -252,11 +273,19 @@ class AggiungiAlCarrelloView(GroupRequiredMixin, View):
         except ShoppingCart.DoesNotExist:
             carrello = ShoppingCart.objects.create(user=request.user)
 
+        current_user = get_user_model().objects.get(pk=self.request.user.pk)
+
         # Aggiungi la bici al carrello
         ShoppingCartItem.objects.get_or_create(shopping_cart=carrello, bike=bici)
 
         # Ridirigi l'utente alla pagina del carrello o a un'altra pagina desiderata
         return redirect('Acquista:home_acquisti')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+
+        return context
 
 
 class RimuoviDalCarrelloView(GroupRequiredMixin, View):
@@ -307,9 +336,15 @@ class OrderConfirmationView(GroupRequiredMixin, View):
 
         # Itera sugli elementi del carrello
         for item in ShoppingCartItem.objects.filter(shopping_cart=shopping_cart):
+            discount = False
             print(item)
             seller, created = Seller.objects.get_or_create(
                 username=item.bike.vendor.username + '_seller' + str(item.bike.vendor.id))
+
+            if BikeDiscount.objects.filter(user=item.shopping_cart.user, bike=item.bike).exists():
+                discount = True
+            else:
+                discount = False
 
             # Crea un'istanza di SoldBike per ogni elemento del carrello
             sold_bike = SoldBike.objects.create(
@@ -321,7 +356,10 @@ class OrderConfirmationView(GroupRequiredMixin, View):
                 # Altri campi della bici da impostare
             )
 
-            total += item.bike.price
+            if discount:
+                total = total + (item.bike.price/2)
+            else:
+                total += item.bike.price
 
             if not item.bike.brand == "Creata da me":
                 Bike.objects.filter(pk=item.bike.pk).delete()
