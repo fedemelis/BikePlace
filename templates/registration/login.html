@@ -2,26 +2,35 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      {% if "not_allowed" in request.GET.status %}
-        <div class="alert alert-danger" role="alert">
-            Si è arrivati qui in quanto non si dispone dei permessi necessari per il servizio scelto!
-        </div>
-      {% endif %}
 
-      <form method="post" class="my-4">
-        {% csrf_token %}
-        {{ form|crispy }}
+    <style>
+        .customBtn{
+            margin-right: 30px;
+        }
+    </style>
 
-        <div class="text-center">
-          <input type="submit" class="btn btn-success" value="Esegui login">
+    <a href="{% url 'welcome_page' %}" class="btn btn-secondary float-right customBtn">Torna alla home</a>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                {% if "not_allowed" in request.GET.status %}
+                    <div class="alert alert-danger" role="alert">
+                        Si è arrivati qui in quanto non si dispone dei permessi necessari per il servizio scelto!
+                    </div>
+                {% endif %}
+
+                <form method="post" class="my-4">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-success" value="Esegui login">
+                    </div>
+                </form>
+            </div>
         </div>
-      </form>
     </div>
-  </div>
-</div>
 {% endblock %}
 
 

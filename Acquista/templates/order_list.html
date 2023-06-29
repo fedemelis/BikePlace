@@ -3,6 +3,14 @@
 {% block title %}Acquisti{% endblock %}
 
 {% block content %}
+    <style>
+        .customBtn{
+            margin-top: 20px;
+            margin-right: 30px;
+        }
+    </style>
+
+    <a href="{% url 'Acquista:home_acquisti' %}" class="btn btn-secondary float-right customBtn">Torna alla home</a>
     <br>
     <div class="d-flex justify-content-center">
         {% if order_list.count == 0 %}

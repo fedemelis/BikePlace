@@ -5,6 +5,16 @@
 {% endblock %}
 
 {% block content %}
+
+    <style>
+        .customBtn{
+            margin-top: 20px;
+            margin-right: 30px;
+        }
+    </style>
+
+    <a href="{% url 'Acquista:home_acquisti' %}" class="btn btn-secondary float-right customBtn">Torna alla home</a>
+
     <div class="row custom-row card-container">
         <div class="container ">
             <h1>Le mie bici preferite</h1>

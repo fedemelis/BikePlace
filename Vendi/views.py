@@ -94,8 +94,11 @@ class HomeVendorView(GroupRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        vendor_id = self.request.user.id
+        bikes_for_sale = Bike.objects.filter(vendor_id=vendor_id).exclude(soldbike__isnull=False)
+
         # Ottieni le 3 bici più popolari tra i preferiti degli utenti usando la foreign key inversa favorites che si riferisce a Bike
-        popular_bikes = Bike.objects.annotate(num_favorites=Count('favorites')).order_by('-num_favorites')[:3]
+        popular_bikes = bikes_for_sale.annotate(num_favorites=Count('favorites')).order_by('-num_favorites')[:3]
 
         # Aggiungi le bici al contesto
         context['popular_bikes'] = popular_bikes

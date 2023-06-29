@@ -5,6 +5,16 @@
 {% endblock %}
 
 {% block content %}
+
+    <style>
+        .customBtn{
+            margin-top: 20px;
+            margin-right: 30px;
+        }
+    </style>
+
+    <a href="{% url 'Vendi:home_vendor' %}" class="btn btn-secondary float-right customBtn">Torna alla home</a>
+
     <div class="container">
         <div class="row">
             {% for item in object_list %}
