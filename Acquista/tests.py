@@ -12,7 +12,6 @@ from BikePlace.utils import build_matrix
 
 class AcquistaViewTests(TestCase):
 
-
     client = Client()
 
     '''test per la view del carrello'''
@@ -36,8 +35,6 @@ class AcquistaViewTests(TestCase):
         result = build_matrix('u1')
         print(result)
         self.assertIn('category2', str(result))
-
-
 
     def create_interests(self):
         u1 = GenericUser.objects.get(username='u1')

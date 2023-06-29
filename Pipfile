@@ -13,6 +13,8 @@ django-extensions = "*"
 piexif = "*"
 scikit-learn = "*"
 google-auth = "*"
+pandas = "*"
+django-braces = "*"
 
 [dev-packages]
 

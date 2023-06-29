@@ -55,29 +55,25 @@ class BikeCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.vendor = self.request.user
-
-        # Ottieni l'istanza del modulo Bike
+        # ottengo l'istanza di bike
         bike = form.save(commit=False)
-
-        # Ridimensiona l'immagine
+        # ridimensiono l'immagine
         image = form.cleaned_data['image']
-        max_image_size = (400, 300)  # Dimensioni massime dell'immagine desiderate
+        max_image_size = (400, 300)  # dimensione massima
         try:
             img = Image.open(image)
             img.thumbnail(max_image_size, Image.ANTIALIAS)
             img.save(bike.image.path)
         except IOError:
-            # Gestisci l'errore se l'immagine non può essere ridimensionata
+            # errore se l'immagine non può essere ridimensionata
             form.add_error('image',
-                           'Impossibile ridimensionare l\'immagine. Assicurati che sia nel formato corretto e abbia dimensioni adeguate.')
-
+                           'Impossibile ridimensionare l\'immagine. Assicurati che sia nel formato corretto e abbia '
+                           'dimensioni adeguate.')
         year = form.cleaned_data['year_of_production']
         if year < 1900 or year > 2023:
             form.add_error('year_of_production', 'L\'anno di produzione deve essere compreso tra 1900 e 2023.')
             return self.form_invalid(form)
-
         bike.save()
-
         return super().form_valid(form)
 
 

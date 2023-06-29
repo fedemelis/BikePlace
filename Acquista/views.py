@@ -72,12 +72,8 @@ class HomeAcquistiView(GroupRequiredMixin, TemplateView):
 
         #prendo gli interessi dell'utente
         user_interest = UserInterest.objects.filter(user=self.request.user).first()
-
-        # Seleziona casualmente una categoria dalle categorie dell'oggetto UserInterest
+        # seleziono casualmente una categoria dalle categorie dell'oggetto UserInterest
         category = random.choice(user_interest.categories.all())
-
-        print(category)
-
         # Seleziona una bici casuale della categoria scelta
         discounted_bike = Bike.objects.exclude(
             Q(vendor=self.request.user) | Q(soldbike__isnull=False)
@@ -87,10 +83,10 @@ class HomeAcquistiView(GroupRequiredMixin, TemplateView):
 
         if existing_discount:
             context['discounted_bike'] = existing_discount
-            # Verifica se lo sconto è attivo da più di un giorno
+            # verifico se lo sconto è attivo da più di un giorno
             time_threshold = timezone.now() - timezone.timedelta(days=1)
             if existing_discount.start_date < time_threshold:
-                # Aggiorna lo sconto con i nuovi valori
+                # aggiorno lo sconto con i nuovi valori
                 existing_discount.bike = discounted_bike
                 existing_discount.newPrice = discounted_bike.price * 0.5
                 existing_discount.start_date = timezone.now()
@@ -117,7 +113,6 @@ class HomeAcquistiView(GroupRequiredMixin, TemplateView):
                     ))
                 context['discounted_bike'] = bike_discount
 
-        # print(recommended1, recommended2, recommended3)
 
         print(discounted_bike)
 

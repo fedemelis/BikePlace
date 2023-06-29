@@ -7,48 +7,40 @@ from Acquista.models import CompositeBike, BikeComponent
 from .models import UserInterest, GenericUser, Category
 
 
-def build_matrix(selectedUser = None):
-    # Ottenere tutti gli utenti che fanno parte del gruppo "Users"
+def build_matrix(selectedUser=None):
+    # ottengo tutti gli utenti che fanno parte del gruppo "Users"
     users = GenericUser.objects.filter(groups__name='Users')
 
-    # Ottenere tutti gli interessi degli utenti
+    # ottengo tutti gli interessi degli utenti
     interests = UserInterest.objects.all()
 
     categories = Category.objects.values_list('name', flat=True)
 
-    # Creare la matrice vuota con le dimensioni corrette
+    # creo la matrice vuota con le dimensioni corrette
     matrix = pd.DataFrame(index=users, columns=categories, dtype=int)
-    matrix = matrix.fillna(0)  # Riempire la matrice con 0
+    matrix = matrix.fillna(0)  # riempio la matrice con 0
 
-    # Riempire la matrice con i dati degli interessi degli utenti
+    # riempio la matrice con i dati degli interessi degli utenti
     for user in users:
         user_interests = interests.filter(user=user)
         for interest in user_interests:
             for category in interest.categories.all():
-                category_name = category.name  # Ottenere il nome della categoria
+                category_name = category.name
                 matrix.loc[user, category_name] = 1
-
-    # print(matrix)
 
     similarity_scores = cosine_similarity(matrix)
 
     similarity_matrix = pd.DataFrame(similarity_scores, index=users, columns=users)
-
-    # print(similarity_matrix)
 
     user_recommendations = {}
     for user in users:
         userObj = GenericUser.objects.get(username=user)
         recommended_categories = get_category_recommendations(similarity_matrix, matrix, userObj, max_recommendations=3)
         user_recommendations[user.username] = recommended_categories
-        # print(f"Raccomandazioni per l'utente {user}: {recommended_categories}")
-
 
     if selectedUser is not None:
-        print("SONO NELL'IF")
         return user_recommendations.get(selectedUser)
     else:
-        print("SONO NELL'ELSE")
         return user_recommendations
 
 
@@ -95,10 +87,8 @@ def get_category_recommendations(similarity_matrix, matrix, user, max_recommenda
         user_categories = set(matrix.loc[user][matrix.loc[user] == 1].index)
         # prendo le categorie che interessano all'utente simile ma non all'utente corrente
         new_categories = similar_user_categories - user_categories
-
         # qua conto per ogni categoria quante volte è stata raccomandata
         for category in new_categories:
-
             if category in recommended_categories:
                 recommended_categories[category] += 1
             else:
@@ -112,11 +102,12 @@ def get_category_recommendations(similarity_matrix, matrix, user, max_recommenda
 
     return recommended_categories
 
+
 async def sendMail(oggetto, body, sender, reciver):
     send_mail(
-        oggetto,  # Oggetto del messaggio
-        body,  # Contenuto del messaggio
-        sender,  # Indirizzo e-mail di invio
-        reciver,  # Lista degli indirizzi e-mail di destinazione
-        fail_silently=False,  # Imposta su False per sollevare un'eccezione in caso di errore
+        oggetto,  # oggetto del messaggio
+        body,  # contenuto del messaggio
+        sender,  # indirizzo email di invio
+        reciver,  # lista degli indirizzi email di destinazione
+        fail_silently=True,  # solleva un'eccezione in caso di errore
     )
