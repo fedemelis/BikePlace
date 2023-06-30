@@ -35,7 +35,7 @@ class BikeUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('Vendi:home_vendite')
 
     def form_valid(self, form):
-        # Validazione dell'anno di produzione
+        # valido dell'anno di produzione
         year = form.cleaned_data['year_of_production']
         if year < 1900 or year > 2023:
             form.add_error('year_of_production', 'L\'anno di produzione deve essere compreso tra 1900 e 2023.')
@@ -65,7 +65,6 @@ class BikeCreateView(LoginRequiredMixin, CreateView):
             img.thumbnail(max_image_size, Image.ANTIALIAS)
             img.save(bike.image.path)
         except IOError:
-            # errore se l'immagine non può essere ridimensionata
             form.add_error('image',
                            'Impossibile ridimensionare l\'immagine. Assicurati che sia nel formato corretto e abbia '
                            'dimensioni adeguate.')
@@ -97,10 +96,8 @@ class HomeVendorView(GroupRequiredMixin, TemplateView):
         vendor_id = self.request.user.id
         bikes_for_sale = Bike.objects.filter(vendor_id=vendor_id).exclude(soldbike__isnull=False)
 
-        # Ottieni le 3 bici più popolari tra i preferiti degli utenti usando la foreign key inversa favorites che si riferisce a Bike
         popular_bikes = bikes_for_sale.annotate(num_favorites=Count('favorites')).order_by('-num_favorites')[:3]
 
-        # Aggiungi le bici al contesto
         context['popular_bikes'] = popular_bikes
 
         return context
@@ -113,13 +110,12 @@ class UsersFavoriteView(GroupRequiredMixin, ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        # Ottieni l'ID del venditore attuale
         vendor_id = self.request.user.id
 
-        # Ottieni tutte le bici in vendita del venditore escludendo le bici vendute
+        # prendo tutte le bici in vendita del venditore escludendo le bici vendute
         bikes_for_sale = Bike.objects.filter(vendor_id=vendor_id).exclude(soldbike__isnull=False)
 
-        # Ottieni le bici popolari tra i preferiti degli utenti
+        # prendo le bici che appaiono più volte nei preferiti degli utenti
         popular_bikes = bikes_for_sale.annotate(num_favorites=Count('favorites')).order_by('-num_favorites')
 
         return popular_bikes
@@ -131,7 +127,6 @@ class AddComponentView(GroupRequiredMixin, CreateView):
     fields = ['category', 'name', 'price']
     template_name = 'add_component.html'
     success_url = reverse_lazy('Vendi:home_vendor')
-    # differenziare i success url
 
     def get_success_url(self):
         referer = self.request.GET.get('next')
@@ -161,7 +156,6 @@ class ComponentListView(GroupRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Filtrare i componenti per ogni categoria e aggiungerli come variabili di contesto
         context['telaio'] = BikeComponent.objects.filter(category='Telaio', vendor=self.request.user.pk)
         context['manubrio'] = BikeComponent.objects.filter(category='Manubrio', vendor=self.request.user.pk)
         context['freno'] = BikeComponent.objects.filter(category='Freno', vendor=self.request.user.pk)
@@ -196,7 +190,6 @@ class StatisticsView(GroupRequiredMixin, TemplateView):
     template_name = 'statistics.html'
 
 
-
     def get_sales_by_bike_type(self):
         user = self.request.user
         vendor_name = user.username + "_seller" + str(user.id)
@@ -205,10 +198,8 @@ class StatisticsView(GroupRequiredMixin, TemplateView):
         return list(sales_data)
 
     def get_sales_by_date(self):
-        # Calcola la data di inizio (30 giorni fa)
         start_date = date.today() - timedelta(days=30)
 
-        # Recupera il numero di vendite per ogni data
         sales_data = Order.objects.filter(order_date__gte=start_date).values('order_date').annotate(
             num_sales=Count('sold_bikes')).order_by('order_date')
         return list(sales_data)

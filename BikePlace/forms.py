@@ -49,11 +49,9 @@ class VendorForm(UserCreationForm):
         except ValueError:
             return False
 
-        # Calcola il controllo
         s = sum(partita_iva[i] if i % 2 == 0 else sum(divmod(partita_iva[i] * 2, 10)) for i in range(10))
         controllo = (10 - (s % 10)) % 10
 
-        # Verifica che il controllo sia uguale all'ultimo cifra della partita IVA
         return controllo == partita_iva[10]
 
 

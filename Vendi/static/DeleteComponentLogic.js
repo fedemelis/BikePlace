@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener("click", function () {
             var response = confirm("Sei sicuro di voler eliminare il componente?");
             var pk = button.getAttribute("data-pk");
-            var url = "{% url 'Vendi:delete_component' 0 %}";  // 0 placeholder per il valore di pk
+            var url = "{% url 'Vendi:delete_component' 0 %}";
             var finalUrl = url.replace("0", pk);
             if (response === true) {
                 let xhr = new XMLHttpRequest();

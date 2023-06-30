@@ -10,7 +10,6 @@ class CompositeBikeForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Popola le scelte dinamicamente dal modello BikeComponent
         self.fields['telaio'].queryset = BikeComponent.objects.filter(category='Telaio')
         self.fields['manubrio'].queryset = BikeComponent.objects.filter(category='Manubrio')
         self.fields['freno'].queryset = BikeComponent.objects.filter(category='Freno')

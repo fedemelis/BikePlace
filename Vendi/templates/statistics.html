@@ -9,9 +9,9 @@
     <style>
         .chart-container {
             display: inline-block;
-            width: calc(20% - 10px); /* Imposta la larghezza del singolo grafico */
-            margin-right: 10px; /* Aggiunge un margine tra i grafici */
-            vertical-align: top; /* Allinea i grafici in cima */
+            width: calc(20% - 10px);
+            margin-right: 10px;
+            vertical-align: top;
         }
 
         .distanced {
@@ -35,7 +35,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Recupera i dati delle vendite tramite richiesta AJAX
             fetch(window.location.href, {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
@@ -149,10 +148,10 @@
                             maintainAspectRatio: false,
                             title: {
                                 display: true,
-                                text: category // Aggiunge il testo della categoria come titolo del grafico
+                                text: category
                             },
                             legend: {
-                                display: false // Nasconde la legenda del grafico
+                                display: false
                             },
                             tooltips: {
                                 callbacks: {
@@ -160,7 +159,7 @@
                                         var dataset = data.datasets[tooltipItem.datasetIndex];
                                         var label = data.labels[tooltipItem.index];
                                         var value = dataset.data[tooltipItem.index];
-                                        return label + ': ' + value; // Mostra la label e il valore al passaggio del mouse sul grafico
+                                        return label + ': ' + value;
                                     }
                                 }
                             }

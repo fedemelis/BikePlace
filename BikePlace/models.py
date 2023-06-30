@@ -13,8 +13,6 @@ class GenericUser(AbstractUser):
     picture = models.ImageField(blank=True, verbose_name='foto profilo', upload_to='profile_pics')
     piva = models.CharField(null=True, blank=True, max_length=11, verbose_name='partita iva')
 
-    #TODO: gestire la dimensione dell'immagine
-
 
 class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name='nome')

@@ -79,7 +79,7 @@
             justify-content: center;
             align-items: center;
             height: 200px;
-        }/* Imposta l'altezza desiderata per l'immagine */
+        }
 
         .button-container {
             display: flex;
@@ -96,7 +96,7 @@
             display: none;
         }
 
-        /* Stili per il footer quando è visibile */
+        /* stile per il footer quando è visibile */
         .footer {
             position: fixed;
             bottom: 0;
@@ -105,7 +105,7 @@
             background-color: #333;
             color: #fff;
             padding: 10px;
-            height: 60px; /* Altezza del footer */
+            height: 60px;
             display: flex;
             align-items: center;
         }
@@ -147,7 +147,7 @@
         }
 
         .card-container .card {
-            flex: 0 0 calc(33.33% - 20px); /* Imposta la larghezza delle card al 33.33% meno 20px di margine */
+            flex: 0 0 calc(33.33% - 20px);
             margin-bottom: 20px;
         }
     </style>
@@ -161,10 +161,10 @@
         var footerHiddenClass = "footer-hidden";
         var footerClass = "footer"
 
-        // Calcola l'altezza della finestra visualizzabile
+        // calcolo l'altezza della finestra visualizzabile
         var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
-        // Calcola l'altezza totale della pagina
+        // calcolo l'altezza totale della pagina
         var documentHeight = Math.max(
             document.body.scrollHeight,
             document.documentElement.scrollHeight,
@@ -174,10 +174,10 @@
             document.documentElement.clientHeight
         );
 
-        // Calcola la posizione verticale corrente dello scroll
+        // calcolo la posizione dello scroll
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
 
-        // Verifica se si è arrivati alla fine della pagina
+        // verifico se si è arrivati alla fine della pagina
         if (windowHeight + scrollTop >= documentHeight) {
             // Rimuovi la classe di nascondere il footer
             if (footer.classList.contains(footerHiddenClass)) {
@@ -185,7 +185,7 @@
             }
             footer.classList.add(footerClass);
         } else {
-            // Aggiungi la classe per nascondere il footer
+            // aggiungo la classe per nascondere il footer
             if (footer.classList.contains(footerClass)) {
                 footer.classList.remove(footerClass);
             }

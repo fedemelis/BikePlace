@@ -12,11 +12,11 @@
                 <div class="card-body">
                     {% if bici.pk in preferiti %}
                         <a href="{% url 'Acquista:rimuovi-preferito' bici.pk %}?q={{ request.GET.q }}&sort={{ request.GET.sort }}" class="text-warning float-right">
-                            <i class="fas fa-star fa-2x"></i> <!-- Filled star icon -->
+                            <i class="fas fa-star fa-2x"></i>
                         </a>
                     {% else %}
                         <a href="{% url 'Acquista:aggiungi-preferito' bici.pk %}?q={{ request.GET.q }}&sort={{ request.GET.sort }}" class="text-warning float-right">
-                            <i class="far fa-star fa-2x"></i> <!-- Empty star icon -->
+                            <i class="far fa-star fa-2x"></i>
                         </a>
                     {% endif %}
                     <h5 class="card-title">{{ bici.type_of_bike }}</h5>

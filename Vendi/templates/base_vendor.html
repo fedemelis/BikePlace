@@ -18,19 +18,19 @@
 
 
         .bike-image {
-            width: 300px; /* Imposta la larghezza desiderata */
-            height: 200px; /* Imposta l'altezza desiderata */
-            object-fit: cover; /* Adatta l'immagine all'area del contenitore mantenendo l'aspect ratio */
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
         }
 
         .bike-image-detail {
-            width: 600px; /* Imposta la larghezza desiderata */
-            height: 400px; /* Imposta l'altezza desiderata */
-            object-fit: cover; /* Adatta l'immagine all'area del contenitore mantenendo l'aspect ratio */
+            width: 600px;
+            height: 400px;
+            object-fit: cover;
         }
 
         .custom-row {
-            max-width: 1400px; /* Imposta la larghezza massima desiderata */
+            max-width: 1400px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -39,7 +39,7 @@
         .carousel-control-prev,
         .carousel-control-next {
             width: 30px;
-            height: 30px; /* Imposta l'altezza delle frecce */
+            height: 30px;
             z-index: 1;
             background-color: #007bff;
             opacity: 100;
@@ -51,12 +51,12 @@
 
 
         .carousel-control-prev {
-            left: -50px; /* Sposta la freccia sinistra verso sinistra */
+            left: -50px;
 
         }
 
         .carousel-control-next {
-            right: -50px; /* Sposta la freccia destra verso destra */
+            right: -50px;
         }
 
         .carousel-control-prev,
@@ -64,15 +64,15 @@
         .carousel-control-prev:focus,
         .carousel-control-next:focus {
             /* ... il resto del tuo stile CSS ... */
-            background-color: #007bff; /* Imposta il colore predefinito delle frecce */
+            background-color: #007bff;
         }
 
         .carousel-control-prev:hover,
         .carousel-control-next:hover,
         .carousel-control-prev:active,
         .carousel-control-next:active{
-            background-color: #0062cc; /* Imposta il colore quando le frecce sono attive o in focus */
-            border-color: #0062cc; /* Imposta il colore del bordo quando le frecce sono attive o in focus */
+            background-color: #0062cc;
+            border-color: #0062cc;
         }
 
         .card-img-container {
@@ -80,7 +80,7 @@
             justify-content: center;
             align-items: center;
             height: 200px;
-        }/* Imposta l'altezza desiderata per l'immagine */
+        }
 
         .button-container {
             display: flex;
@@ -97,7 +97,7 @@
             display: none;
         }
 
-        /* Stili per il footer quando è visibile */
+
         .footer {
             position: fixed;
             bottom: 0;
@@ -106,7 +106,7 @@
             background-color: #333;
             color: #fff;
             padding: 10px;
-            height: 60px; /* Altezza del footer */
+            height: 60px;
             display: flex;
             align-items: center;
         }
@@ -148,7 +148,7 @@
         }
 
         .card-container .card {
-            flex: 0 0 calc(33.33% - 20px); /* Imposta la larghezza delle card al 33.33% meno 20px di margine */
+            flex: 0 0 calc(33.33% - 20px);
             margin-bottom: 20px;
         }
     </style>
@@ -162,10 +162,8 @@
         var footerHiddenClass = "footer-hidden";
         var footerClass = "footer"
 
-        // Calcola l'altezza della finestra visualizzabile
         var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
-        // Calcola l'altezza totale della pagina
         var documentHeight = Math.max(
             document.body.scrollHeight,
             document.documentElement.scrollHeight,
@@ -175,18 +173,14 @@
             document.documentElement.clientHeight
         );
 
-        // Calcola la posizione verticale corrente dello scroll
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
 
-        // Verifica se si è arrivati alla fine della pagina
         if (windowHeight + scrollTop >= documentHeight) {
-            // Rimuovi la classe di nascondere il footer
             if (footer.classList.contains(footerHiddenClass)) {
                 footer.classList.remove(footerHiddenClass);
             }
             footer.classList.add(footerClass);
         } else {
-            // Aggiungi la classe per nascondere il footer
             if (footer.classList.contains(footerClass)) {
                 footer.classList.remove(footerClass);
             }

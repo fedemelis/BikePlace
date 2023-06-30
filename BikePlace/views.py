@@ -58,19 +58,18 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
         if form.cleaned_data['picture']:
             image = form.cleaned_data['picture']
-            max_image_size = (400, 300)  # Dimensioni massime dell'immagine desiderate
+            max_image_size = (400, 300)
             try:
                 img = Image.open(image)
                 img.thumbnail(max_image_size, Image.ANTIALIAS)
                 img.save(user.picture.path)
             except IOError:
-                # Gestisci l'errore se l'immagine non può essere ridimensionata
                 form.add_error('image',
                                'Impossibile ridimensionare l\'immagine. Assicurati che sia nel formato corretto e abbia dimensioni adeguate.')
 
         user.save()
 
-        login(self.request, self.object)  # Reimposta la sessione utente
+        login(self.request, self.object)
         return response
 
 @require_POST

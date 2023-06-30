@@ -75,7 +75,6 @@ viene passato il numero massimo di raccomandazioni da fare
 
 
 def get_category_recommendations(similarity_matrix, matrix, user, max_recommendations=3):
-    # Ottenere gli utenti più simili all'utente corrente escludendo l'utente per cui dobbiamo fare le raccomandazioni
     similar_users = similarity_matrix.loc[user].drop(user).sort_values(ascending=False)
 
     # Trovare le categorie di bici che interessano agli utenti più simili, escludendo quelle già presenti per l'utente corrente
@@ -83,7 +82,6 @@ def get_category_recommendations(similarity_matrix, matrix, user, max_recommenda
     for similar_user in similar_users.index:
         # seleziono le categorie di bici che interessano all'utente simile
         similar_user_categories = set(matrix.loc[similar_user][matrix.loc[similar_user] == 1].index)
-        # prendo le categorie
         user_categories = set(matrix.loc[user][matrix.loc[user] == 1].index)
         # prendo le categorie che interessano all'utente simile ma non all'utente corrente
         new_categories = similar_user_categories - user_categories
@@ -94,10 +92,9 @@ def get_category_recommendations(similarity_matrix, matrix, user, max_recommenda
             else:
                 recommended_categories[category] = 1
 
-    # ordina le categorie raccomandate in ordine decrescente di raccomandazioni
+    # ordino le categorie raccomandate in ordine decrescente di raccomandazioni
     recommended_categories = sorted(recommended_categories.items(), key=lambda x: x[1], reverse=True)
 
-    # prende solo le prime max_recommendations categorie raccomandate
     recommended_categories = [category for category, _ in recommended_categories][:max_recommendations]
 
     return recommended_categories
