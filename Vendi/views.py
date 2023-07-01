@@ -2,6 +2,7 @@ import json
 from collections import defaultdict
 from datetime import timedelta
 
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db.models import Count, Avg, Q
 from django.http import HttpResponse, JsonResponse
@@ -78,6 +79,7 @@ class BikeCreateView(LoginRequiredMixin, CreateView):
 
 
 @require_POST
+@login_required
 def delete_bike(request, pk):
     bike = get_object_or_404(Bike, pk=pk)
     if not Bike.objects.contains(bike):
@@ -177,6 +179,7 @@ class ComponentUpdateView(GroupRequiredMixin, UpdateView):
 
 
 @require_POST
+@login_required
 def delete_component(request, pk):
     component = get_object_or_404(BikeComponent, pk=pk)
     if not BikeComponent.objects.contains(component):

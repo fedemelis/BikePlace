@@ -4,6 +4,7 @@ from itertools import islice
 
 from braces.views import *
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
@@ -296,6 +297,7 @@ class RimuoviDalCarrelloView(GroupRequiredMixin, View):
 
 
 @require_POST
+@login_required
 def flush_shopping_cart(request, pk):
     shopping_cart = get_object_or_404(ShoppingCart, pk=pk)
 

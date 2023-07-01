@@ -2,6 +2,7 @@ from braces.views import *
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group
 from django.http import HttpResponse
@@ -73,6 +74,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         return response
 
 @require_POST
+@login_required
 def delete_user(request, pk):
     user = get_object_or_404(GenericUser, pk=pk)
     print(user)

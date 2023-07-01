@@ -79,6 +79,7 @@ class UserInterestForm(forms.ModelForm):
 
     categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.all(),
+        # cambio il widget e gli specifico una classe da mettere nell'html
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'})
     )
 
